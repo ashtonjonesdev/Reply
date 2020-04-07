@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -201,11 +202,21 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 //            }
 //        });
 
-        // Add the data to the Section
-        listSection.addAll(placeholderData);
+        // Add the placeholder data to the Section
+//        listSection.addAll(placeholderData);
 
         // Set the selected Message to null
         selectedMessage = null;
+
+        // Replace the placeholder data with Firebase data
+        viewModel.getPersonalMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+            @Override
+            public void onChanged(ArrayList<MessageCard> messageCards) {
+
+                listSection.set(messageCards);
+
+            }
+        });
 
 
     }
@@ -583,6 +594,24 @@ public class ReplyFragmentPersonalMessages extends Fragment {
         Log.d(LOG_TAG, "onResume");
 
         topAppToolbar.setTitle("Personal Messages");
+
+        viewModel.getPersonalMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+            @Override
+            public void onChanged(ArrayList<MessageCard> messageCards) {
+
+                for(MessageCard messageCard: messageCards) {
+                    Log.d("VIEWMODEL_REACTIVE", "Observed change in data stream: " + messageCard.getTitle() + "|"  + messageCard.getMessage());
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
 
     }
 }

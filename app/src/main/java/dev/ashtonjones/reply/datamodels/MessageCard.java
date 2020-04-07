@@ -26,4 +26,7 @@ public class MessageCard {
         this.title = title;
         this.message = message;
     }
+
+    public MessageCard() {
+    }
 }

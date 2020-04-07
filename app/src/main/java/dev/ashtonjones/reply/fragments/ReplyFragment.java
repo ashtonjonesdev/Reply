@@ -6,10 +6,12 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +21,12 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.adapters.ReplyFragmentStateAdapter;
+import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
+import dev.ashtonjones.reply.datamodels.MessageCard;
 
 
 /**
@@ -109,5 +115,22 @@ public class ReplyFragment extends Fragment {
             Navigation.findNavController(getView()).navigate(R.id.action_global_sign_in_nav_graph);
 
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        FirebaseRepository firebaseRepository = new FirebaseRepository();
+
+        firebaseRepository.getMessages().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+            @Override
+            public void onChanged(ArrayList<MessageCard> messageCards) {
+
+                for(MessageCard messageCard: messageCards) {
+                    Log.d("FIREBASE_REACTIVE", "Observed change in data stream: " + messageCard.getTitle() + "|"  + messageCard.getMessage());
+                }
+            }
+        });
     }
 }
