@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/about_developer_fragment_dest"
+        android:title="About Developer"
+        android:icon="@drawable/ic_code_black_24dp"
+        app:showAsAction="always"
+        android:orderInCategory="100"
+        />
+
+    <item
+        android:id="@+id/sign_out_button"
+        android:title="Sign out"
+        app:showAsAction="never"/>
+</menu>

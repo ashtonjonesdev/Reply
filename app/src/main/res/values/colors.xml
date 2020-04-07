@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    /// Red Color Theme: Colors based on Color #f44336-->
+
+<!--    // Primary Colors-->
+<!--    <color name="colorPrimary">#f44336</color> // Light Red-->
+<!--    <color name="colorPrimaryDark">#D32F2F</color> // Deep Red-->
+<!--    <color name="colorPrimaryLight">#E57373</color> // Pinkish-red-->
+
+<!--    // Primary Color Variants-->
+<!--    <color name="colorPrimary50">#ffebee</color>-->
+<!--    <color name="colorPrimary100">#ffcdd2</color>-->
+<!--    <color name="colorPrimary200">#ef9a9a</color>-->
+<!--    <color name="colorPrimary300">#e57373</color>-->
+<!--    <color name="colorPrimary400">#ef5350</color>-->
+<!--    <color name="colorPrimary500">#f44336</color>-->
+<!--    <color name="colorPrimary600">#e53935</color>-->
+<!--    <color name="colorPrimary700">#d32f2f</color>-->
+<!--    <color name="colorPrimary800">#c62828</color>-->
+<!--    <color name="colorPrimary900">#b71c1c</color>-->
+
+<!--    // Secondary/Accent color-->
+<!--    <color name="colorSecondary">#FF5252</color> // Pinkish-red: A200 of Primary color-->
+<!--    <color name="colorAccent">#FF5252</color> // Pinkish-red: A200 of Primary color-->
+<!--    <color name="colorSecondaryVariant">#FF8A80</color> Pale Pink: A100 of Primary color-->
+
+<!--    // Surface Colors-->
+<!--    <color name="colorSurface">#FFFFFF</color>-->
+<!--    <color name="colorSurfaceLight">#FFFFFF</color>-->
+<!--    <color name="colorSurfaceDark">#F5F5F5</color>-->
+<!--    <color name="colorSurfaceScrim">#ef9a9a</color> // colorPrimary200-->
+
+<!--    &lt;!&ndash;Error color&ndash;&gt;-->
+<!--    <color name="colorError">#C51162</color>-->
+
+<!--    // Black Colors (Text OnSurface AND OnPrimary #50-600)-->
+<!--    <color name="colorHighEmphasisBlack">#DE000000</color> // 87% Opaque Black-->
+<!--    <color name="colorMediumEmphasisBlack">#99000000</color> // 60% Opaque Black-->
+<!--    <color name="colorDisabledBlack">#61000000</color> // 38% Opaque Black-->
+
+<!--    // White Colors ( Text OnPrimary #700-900)-->
+<!--    <color name="colorHighEmphasisWhite">#FFFFFF</color> // 100% Opaque White-->
+<!--    <color name="colorMediumEmphasisWhite">#99FFFFFF</color> // 60% Opaque White-->
+<!--    <color name="colorDisabledWhite">#61FFFFFF</color> // 38% Opaque White-->
+
+
+<!--    /// Purple Color Theme: Colors based on Color #333959-->
+
+<!--    // Primary Colors-->
+<!--    <color name="colorPrimary">#333959</color> // #800-->
+<!--    <color name="colorPrimaryDark">#272940</color> // #900-->
+<!--    <color name="colorPrimaryLight">#49537A</color> // #500-->
+
+<!--    // Primary Color Variants-->
+<!--    <color name="colorPrimary50">#E8EAEE</color>-->
+<!--    <color name="colorPrimary100">#C4C9D6</color>-->
+<!--    <color name="colorPrimary200">#A0A7BA</color>-->
+<!--    <color name="colorPrimary300">#7D859E</color>-->
+<!--    <color name="colorPrimary400">#626B8B</color>-->
+<!--    <color name="colorPrimary500">#49537A</color>-->
+<!--    <color name="colorPrimary600">#424C71</color>-->
+<!--    <color name="colorPrimary700">#3A4266</color>-->
+<!--    <color name="colorPrimary800">#333959</color>-->
+<!--    <color name="colorPrimary900">#272940</color>-->
+
+<!--    // Secondary/Accent color-->
+<!--    <color name="colorSecondary">#333959</color>-->
+<!--    <color name="colorAccent">#333959</color>-->
+<!--    <color name="colorSecondaryVariant">#7D859E</color>-->
+
+<!--    // Surface Colors-->
+<!--    <color name="colorSurface">#FFFFFF</color>-->
+<!--    <color name="colorSurfaceLight">#FFFFFF</color>-->
+<!--    <color name="colorSurfaceDark">#F5F5F5</color>-->
+<!--    <color name="colorSurfaceScrim">#A0A7BA</color>-->
+
+<!--    &lt;!&ndash;Error color&ndash;&gt;-->
+<!--    <color name="colorError">#C51162</color>-->
+
+<!--    // Black Colors (Text OnSurface AND OnPrimary #50-600)-->
+<!--    <color name="colorHighEmphasisBlack">#DE000000</color> // 87% Opaque Black-->
+<!--    <color name="colorMediumEmphasisBlack">#99000000</color> // 60% Opaque Black-->
+<!--    <color name="colorDisabledBlack">#61000000</color> // 38% Opaque Black-->
+
+<!--    // White Colors ( Text OnPrimary #700-900)-->
+<!--    <color name="colorHighEmphasisWhite">#FFFFFF</color> // 100% Opaque White-->
+<!--    <color name="colorMediumEmphasisWhite">#99FFFFFF</color> // 60% Opaque White-->
+<!--    <color name="colorDisabledWhite">#61FFFFFF</color> // 38% Opaque White-->
+
+    /// Blue Color Theme: Colors based on Color #0795FF
+
+    // Primary Colors
+    <color name="colorPrimary">#333959</color> // Primary #800
+    <color name="colorPrimaryDark">#091430</color> //
+    <color name="colorPrimaryLight">#5e6386</color> //
+
+<!--    // Primary Color Variants-->
+    <color name="colorPrimary50">#E8EAEE</color>
+    <color name="colorPrimary100">#C4C9D6</color>
+    <color name="colorPrimary200">#A0A7BA</color>
+    <color name="colorPrimary300">#7D859E</color>
+    <color name="colorPrimary400">#626B8B</color>
+    <color name="colorPrimary500">#49537A</color>
+    <color name="colorPrimary600">#424C71</color>
+    <color name="colorPrimary700">#3A4266</color>
+    <color name="colorPrimary800">#333959</color>
+    <color name="colorPrimary900">#272940</color>
+
+    // Secondary/Accent color
+    <color name="colorSecondary">#595333</color> // Light Blue from Pitch Deck
+    <color name="colorAccent">#626B8B</color> // Light Blue from Pitch Deck
+    <color name="colorSecondaryVariant">#958E6B</color> A100 of Primary color
+
+    // Surface Colors
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorSurfaceLight">#FFFFFF</color>
+    <color name="colorSurfaceDark">#F5F5F5</color>
+    <color name="colorSurfaceScrim">#C4C9D6</color> // colorPrimary100
+    // Background Colors
+
+    <!--Background color: The color behind all other screen content-->
+    <color name="colorBackground">#FFFFFF</color>
+
+    <!--onBackground color: The color used for elements displayed on top of your background color-->
+    <color name="colorOnBackground">#000000</color>
+
+    <!--Error color-->
+    <color name="colorError">#C51162</color>
+
+    // Black Colors (Text OnSurface AND OnPrimary #50-600)
+    <color name="colorHighEmphasisBlack">#DE000000</color> // 87% Opaque Black
+    <color name="colorMediumEmphasisBlack">#99000000</color> // 60% Opaque Black
+    <color name="colorDisabledBlack">#61000000</color> // 38% Opaque Black
+
+    // White Colors ( Text OnPrimary #700-900)
+    <color name="colorHighEmphasisWhite">#FFFFFF</color> // 100% Opaque White
+    <color name="colorMediumEmphasisWhite">#99FFFFFF</color> // 60% Opaque White
+    <color name="colorDisabledWhite">#61FFFFFF</color> // 38% Opaque White
+
+    <!--On Primary-->
+    <color name="colorOnPrimary">#FFFFFF</color>
+
+    <!--On Secondary-->
+    <color name="colorOnSecondary">#FFFFFF</color>
+
+    <!--onSurface color: The color used for elements displayed on top of your surface color-->
+    <color name="colorOnSurface">#000000</color>
+
+    <color name="colorUnselectedCardBackground">#FFFFFF</color>
+
+    <color name="colorSelectedCardBackground">#A0A7BA</color>
+
+
+
+
+</resources>
+

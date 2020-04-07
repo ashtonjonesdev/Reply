@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/reply_fragment_dest">
+
+    <fragment
+        android:id="@+id/reply_fragment_dest"
+        android:name="dev.ashtonjones.reply.fragments.ReplyFragment"
+        android:label="Reply"
+        tools:layout="@layout/fragment_reply" />
+    <fragment
+        android:id="@+id/about_developer_fragment_dest"
+        android:name="dev.ashtonjones.reply.fragments.AboutDeveloperFragment"
+        android:label="About Developer"
+        tools:layout="@layout/fragment_about_developer" />
+    <navigation
+        android:id="@+id/sign_in_nav_graph"
+        app:startDestination="@id/sign_in_fragment_dest">
+        <fragment
+            android:id="@+id/sign_in_fragment_dest"
+            android:name="dev.ashtonjones.reply.fragments.SignInFragment"
+            android:label="fragment_sign_in"
+            tools:layout="@layout/fragment_sign_in" />
+    </navigation>
+    <action
+        android:id="@+id/action_global_reply_fragment_dest"
+        app:destination="@id/reply_fragment_dest"
+        app:popUpTo="@id/reply_fragment_dest" />
+    <action
+        android:id="@+id/action_global_sign_in_nav_graph"
+        app:destination="@id/sign_in_nav_graph" />
+    <navigation
+        android:id="@+id/welcome_nav_graph"
+        app:startDestination="@id/welcome_fragment_dest">
+        <fragment
+            android:id="@+id/welcome_fragment_dest"
+            android:name="dev.ashtonjones.reply.fragments.WelcomeFragment"
+            android:label="Welcome!"
+            tools:layout="@layout/fragment_welcome" />
+    </navigation>
+    <action
+        android:id="@+id/action_global_welcome_nav_graph"
+        app:destination="@id/welcome_nav_graph" />
+</navigation>

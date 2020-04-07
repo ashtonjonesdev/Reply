@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="iconPreferenceColor" format="reference|color" />
+
+    <attr name="iconConnectCardColor" format="reference|color" />
+
+    <attr name="colorUnselectedCardBackground" format="reference|color" />
+
+    <attr name="colorSelectedCardBackground" format="reference|color" />
+    
+
+</resources>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/constraint_layout_fragment_reply"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_reply_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_item_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_person_black_24dp" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_item_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_group_black_24dp" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_item_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_business_center_black_24dp" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_item_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_exposure_plus_1_black_24dp" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_item_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_exposure_plus_2_black_24dp" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <!--A fragment with the corresponding selected tab in the TabLayout is placed in the ViewPager, such as FragmentMessageBusinessMessages, for example-->
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2_reply_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tab_layout_reply_fragment"
+        >
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <!--A fragment with the corresponding selected tab in the TabLayout is placed in the ViewPager, such as FragmentMessageBusinessMessages, for example-->
+
+
+</RelativeLayout>
