@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -65,13 +67,9 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
 
     private MultiViewAdapter multiViewAdapter;
 
-    private List<MessageCard> messageCards;
-
     private ListSection<MessageCard> listSection;
 
     private SelectableItemBinderMessageCard selectableItemBinderMessageCard;
-
-//    private DataManager dataManager;
 
     private MessageCard selectedMessage;
 
@@ -207,28 +205,11 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
 
     public void initData() {
 
-//        Toast.makeText(getContext(), "Loading messages...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Loading your messages...", Toast.LENGTH_SHORT).show();
+
+        selectedMessage = null;
 
 
-//        // Instantiate ArrayList
-        messageCards = new ArrayList<>();
-
-//        // Initialize DataManager
-//        dataManager = new DataManager();
-//
-//        // Initialize ArrayList with data
-//        messageTemplates = dataManager.getBusinessMessageTemplatesPlaceholderData();
-
-        // Observe the Personal Messages list for changes; once the list changes, update the UI
-//        viewModel.getArrayListMutableLiveData().observe(getViewLifecycleOwner(), messageTemplates -> {
-//
-//            listSection.set(messageTemplates);
-//
-//        });
-
-
-
-        listSection.addAll(placeholderData);
 
     }
 
@@ -394,7 +375,7 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
 
                     Toast.makeText(getContext(), "Add Action clicked!", Toast.LENGTH_SHORT).show();
 
-//                    Navigation.findNavController(speedDialView).navigate(R.id.action_message_fragment_dest_to_add_card_fragment_dest);
+                    Navigation.findNavController(getView()).navigate(R.id.action_global_add_new_message_fragment_dest);
 
                     return false;
 
@@ -536,6 +517,13 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
         super.onResume();
 
         topAppToolbar.setTitle("Business Messages");
+
+        viewModel.getBusinessMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+            @Override
+            public void onChanged(ArrayList<MessageCard> messageCards) {
+                listSection.set(messageCards);
+            }
+        });
     }
 
 

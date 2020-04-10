@@ -11,16 +11,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavInflater;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
@@ -30,12 +38,14 @@ import java.util.List;
 
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.adapters.SelectableItemBinderMessageCard;
+import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
 import dev.ashtonjones.reply.datalayer.viewmodel.PersonalMessagesViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 
 import mva2.adapter.ListSection;
 import mva2.adapter.MultiViewAdapter;
 import mva2.adapter.util.Mode;
+import mva2.adapter.util.OnSelectionChangedListener;
 
 
 /**
@@ -80,17 +90,11 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
     private SpeedDialView speedDialView;
 
-
     private ArrayList<MessageCard> placeholderData = new ArrayList<>();
-
-    private List<MessageCard> messageCards;
 
     private ListSection<MessageCard> listSection;
 
     private SelectableItemBinderMessageCard selectableItemBinderMessageCard;
-
-    // DATAMANAGER
-//    private DataManager dataManager;
 
     private MessageCard selectedMessage;
 
@@ -99,6 +103,9 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
     // VIEWMODEL
     private PersonalMessagesViewModel viewModel;
+
+    private boolean alreadySelected = false;
+
 
     /**
      * Required empty public constructor
@@ -160,8 +167,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
         // INITIALIZE DATA
         initPlaceholderData();
 
-
-
         initData();
 
         // SETUP SECTION SELECTION BEHAVIOR
@@ -173,7 +178,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
     }
 
 
-
     public void setUpViewModel() {
 
         viewModel = new ViewModelProvider(this).get(PersonalMessagesViewModel.class);
@@ -183,44 +187,13 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
     public void initData() {
 
-        // Instantiate ArrayList
-        messageCards = new ArrayList<>();
-
-        // Initialize DataManager
-//        dataManager = new DataManager();
-
-        // Initialize ArrayList with data
-//        messageTemplates = dataManager.getPersonalMessageTemplatesPlaceholderData();
-
-        // Observe the Personal Messages list for changes; once the list changes, update the UI
-//        viewModel.getPersonalMessagesList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageTemplate>>() {
-//            @Override
-//            public void onChanged(ArrayList<MessageTemplate> messageTemplates) {
-//
-//                listSection.set(messageTemplates);
-//
-//            }
-//        });
-
-        // Add the placeholder data to the Section
-//        listSection.addAll(placeholderData);
+        Toast.makeText(getContext(), "Loading your messages...", Toast.LENGTH_SHORT).show();
 
         // Set the selected Message to null
-        selectedMessage = null;
-
-        // Replace the placeholder data with Firebase data
-        viewModel.getPersonalMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
-            @Override
-            public void onChanged(ArrayList<MessageCard> messageCards) {
-
-                listSection.set(messageCards);
-
-            }
-        });
+//        selectedMessage = null;
 
 
     }
-
 
 
     public void initViews() {
@@ -261,9 +234,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
         speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimary800).create());
 
         speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimary900).create());
-
-
-
 
 
         /**
@@ -317,13 +287,11 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
                     Log.d(LOG_TAG, "Send action clicked!");
 
-                    if(selectedMessage != null) {
+                    if (selectedMessage != null) {
 
                         sendMessage();
 
-                    }
-
-                    else {
+                    } else {
 
                         Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
 
@@ -333,13 +301,11 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                 // Preview message action
                 case R.id.fab_search_action:
 
-                    if(selectedMessage != null) {
+                    if (selectedMessage != null) {
 
                         showMessagePreview();
 
-                    }
-
-                    else {
+                    } else {
 
                         Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
 
@@ -350,18 +316,10 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                 // Add card action
                 case R.id.fab_add_action:
 
-//                    viewModel.changeMessageList();
-
-//                    ArrayList<MessageTemplate> messageTemplates = new ArrayList<MessageTemplate>();
-//
-//                    messageTemplates.add(new MessageTemplate("Hello Hello", "Hi"));
-//
-//                    viewModel.setPersonalMessagesList(messageTemplates);
-
                     Toast.makeText(getContext(), "Add Action clicked!", Toast.LENGTH_SHORT).show();
 
+                    Navigation.findNavController(getView()).navigate(R.id.action_global_add_new_message_fragment_dest);
 
-//                Navigation.findNavController(speedDialView).navigate(R.id.action_message_fragment_dest_to_add_card_fragment_dest);
 
                     return false;
 
@@ -380,16 +338,26 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                 case R.id.fab_remove_action:
 
 
-                    if(selectedMessage != null) {
+                    if (selectedMessage != null) {
 
-                        Toast.makeText(getContext(), "Delete Action clicked!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Delete Action clicked!", Toast.LENGTH_SHORT).show();
 
                         // TODO: ADD DELETE FUNCTION TO DELETE THE MESSAGE FROM THE DATABASE
 
 
-                    }
+                        MessageCard messageCardToDelete = selectedMessage;
 
-                    else {
+                        // Get the index of the selected item
+                        int itemAdapterPosition = SelectableItemBinderMessageCard.itemAdapterPosition;
+
+                        Toast.makeText(getContext(), "Message Position: " + itemAdapterPosition, Toast.LENGTH_SHORT).show();
+
+                        FirebaseRepository firebaseRepository = new FirebaseRepository();
+
+                        firebaseRepository.deletePersonalMessage(messageCardToDelete);
+
+
+                    } else {
 
                         Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
 
@@ -431,33 +399,51 @@ public class ReplyFragmentPersonalMessages extends Fragment {
     }
 
 
-
     public void setUpSectionSelection() {
 
         listSection.setOnSelectionChangedListener((item, isSelected, selectedItems) -> {
 
+
+
             Log.d(LOG_TAG, "Item " + item.getMessage() + " was " + (isSelected ? "" : "un") + "selected");
 
 
-            if(isSelected) {
+
+
+            if (isSelected) {
+
+                alreadySelected = true;
+
+                Log.d(LOG_TAG, "Setting selected item to: " + item.getMessage());
 
                 selectedMessage = item;
 
-                Toast.makeText(getContext(),item.getMessage(), Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getContext(), item.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
 
-            else {
+            if (!isSelected) {
+
+                if(alreadySelected) {
+
+                    alreadySelected = false;
+
+                    return;
+
+                }
+
+                Log.d(LOG_TAG, "Unselecting item: " + item.getMessage());
 
                 selectedMessage = null;
+
+                Log.d(LOG_TAG, "Selected message variable: " + selectedMessage);
+
 
             }
 
         });
 
     }
-
 
 
     public void setUpRecyclerView() {
@@ -503,7 +489,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
         listSection.setSelectionMode(Mode.SINGLE);
 
 
-
     }
 
     public void sendMessage() {
@@ -511,7 +496,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
         String message;
         String mimeType = "text/plain";
 
-        if(selectedMessage != null) {
+        if (selectedMessage != null) {
 
             message = selectedMessage.getMessage();
 
@@ -526,32 +511,24 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
             getContext().startActivity(shareMessageIntentChooser);
 
-        }
-
-        else {
+        } else {
 
             Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
 
         }
 
 
-
-
-
-
     }
 
     /**
-     *
      * Show a dialog to the user the indicates what message the card contains when it is long-pressed
-     *
      */
 
     public void showMessagePreview() {
 
         String message;
 
-        if(selectedMessage != null) {
+        if (selectedMessage != null) {
 
             message = selectedMessage.getMessage();
 
@@ -567,9 +544,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
             alertDialog.show();
 
-        }
-
-        else {
+        } else {
 
             message = null;
 
@@ -578,14 +553,11 @@ public class ReplyFragmentPersonalMessages extends Fragment {
         }
 
 
-
     }
 
 
     /**
-     *
      * Need to set the title of the Top app toolbar in onResume because the ViewPager2 is not controlled/compatible with the Navigation component
-     *
      */
     @Override
     public void onResume() {
@@ -595,24 +567,30 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
         topAppToolbar.setTitle("Personal Messages");
 
-        viewModel.getPersonalMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
-            @Override
-            public void onChanged(ArrayList<MessageCard> messageCards) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
-                for(MessageCard messageCard: messageCards) {
-                    Log.d("VIEWMODEL_REACTIVE", "Observed change in data stream: " + messageCard.getTitle() + "|"  + messageCard.getMessage());
+            viewModel.getPersonalMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+                @Override
+                public void onChanged(ArrayList<MessageCard> messageCards) {
+
+                    for (MessageCard messageCard : messageCards) {
+                        Log.d("VIEWMODEL_REACTIVE", "Observed change in data stream: " + messageCard.getTitle() + "|" + messageCard.getMessage());
+                    }
+
+                    listSection.set(messageCards);
+
                 }
+            });
 
-            }
-        });
+        } else {
 
-    }
+            Navigation.findNavController(getView()).navigate(R.id.action_global_sign_in_nav_graph);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+        }
 
     }
+
+
 }
+
 

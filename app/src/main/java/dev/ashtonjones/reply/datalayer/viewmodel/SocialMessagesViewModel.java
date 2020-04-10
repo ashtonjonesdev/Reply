@@ -1,44 +1,32 @@
 package dev.ashtonjones.reply.datalayer.viewmodel;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 
 import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
+import dev.ashtonjones.reply.datalayer.repository.RepositoryInterface;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 
 public class SocialMessagesViewModel extends ViewModel {
 
-    FirebaseRepository firebaseRepository;
+    private RepositoryInterface firebaseRepository;
 
-    private MutableLiveData<ArrayList<MessageCard>> socialMessages;
+    private MutableLiveData<ArrayList<MessageCard>> socialMessagesLiveData;
 
     public SocialMessagesViewModel() {
+
         firebaseRepository = new FirebaseRepository();
 
-        if(socialMessages == null) {
-
-            socialMessages = new MutableLiveData<>();
-
-            loadSocialMessages();
-
-        }
+        socialMessagesLiveData = new MutableLiveData<>();
     }
 
-    public MutableLiveData<ArrayList<MessageCard>> getSocialMessages() {
-        return socialMessages;
-    }
+    public LiveData<ArrayList<MessageCard>> getSocialMessagesLiveData() {
 
-    public void loadSocialMessages() {
+        socialMessagesLiveData = firebaseRepository.getSocialMessages();
 
-        // Get messages from Firebase
-//        firebaseRepository.get
-        ArrayList<MessageCard> firebasePersonalMessages = new ArrayList<>();
-
-
-        // Set the MutableLiveData instance to the data received from Cloud Firestore
-        socialMessages.setValue(firebasePersonalMessages);
-
+        return socialMessagesLiveData;
     }
 }

@@ -12,8 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,13 +65,9 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
     private MultiViewAdapter multiViewAdapter;
 
-    private List<MessageCard> messageCards;
-
     private ListSection<MessageCard> listSection;
 
     private SelectableItemBinderMessageCard selectableItemBinderMessageCard;
-
-//    private DataManager dataManager;
 
     private MessageCard selectedMessage;
 
@@ -179,17 +177,9 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
     public void initData() {
 
-        // Instantiate ArrayList
-        messageCards = new ArrayList<>();
-//
-//        // Initialize DataManager
-//        dataManager = new DataManager();
-//
-//        // Initialize ArrayList with data
-//        messageTemplates = dataManager.getSocialMessageTemplatesPlaceholderData();
+        Toast.makeText(getContext(), "Loading your messages...", Toast.LENGTH_SHORT).show();
 
-        // Add the data to the Section
-        listSection.addAll(placeholderData);
+        selectedMessage = null;
 
 
     }
@@ -362,7 +352,7 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
                     Toast.makeText(getContext(), "Add action clicked!", Toast.LENGTH_SHORT).show();
 
-//                    Navigation.findNavController(speedDialView).navigate(R.id.action_message_fragment_dest_to_add_card_fragment_dest);
+                    Navigation.findNavController(getView()).navigate(R.id.action_global_add_new_message_fragment_dest);
 
                     return false;
 
@@ -520,6 +510,13 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
         super.onResume();
 
         topAppToolbar.setTitle("Social Messages");
+
+        viewModel.getSocialMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+            @Override
+            public void onChanged(ArrayList<MessageCard> messageCards) {
+                listSection.set(messageCards);
+            }
+        });
     }
 }
 

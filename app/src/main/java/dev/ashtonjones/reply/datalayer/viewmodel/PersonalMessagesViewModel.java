@@ -7,11 +7,12 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 
 import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
+import dev.ashtonjones.reply.datalayer.repository.RepositoryInterface;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 
 public class PersonalMessagesViewModel extends ViewModel {
 
-    FirebaseRepository firebaseRepository;
+    private RepositoryInterface firebaseRepository;
 
     private MutableLiveData<ArrayList<MessageCard>> personalMessagesLiveData;
 
@@ -24,13 +25,9 @@ public class PersonalMessagesViewModel extends ViewModel {
 
     public LiveData<ArrayList<MessageCard>> getPersonalMessagesLiveData() {
 
-        if(personalMessagesLiveData.getValue() == null || personalMessagesLiveData.getValue().isEmpty()) {
+        personalMessagesLiveData = firebaseRepository.getPersonalMessages();
 
-            personalMessagesLiveData = firebaseRepository.getMessages();
-
-        }
-
-        return  personalMessagesLiveData;
+        return personalMessagesLiveData;
     }
 
 }

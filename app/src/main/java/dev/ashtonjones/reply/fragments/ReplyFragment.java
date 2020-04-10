@@ -2,12 +2,10 @@ package dev.ashtonjones.reply.fragments;
 
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -102,6 +100,8 @@ public class ReplyFragment extends Fragment {
         // Set icons only
         new TabLayoutMediator(messageFragmentTabLayout, viewPager2, (tab, position) -> tab.setIcon(drawableIcons[position])).attach();
 
+
+
     }
 
     @Override
@@ -121,16 +121,16 @@ public class ReplyFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FirebaseRepository firebaseRepository = new FirebaseRepository();
-
-        firebaseRepository.getMessages().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
-            @Override
-            public void onChanged(ArrayList<MessageCard> messageCards) {
-
-                for(MessageCard messageCard: messageCards) {
-                    Log.d("FIREBASE_REACTIVE", "Observed change in data stream: " + messageCard.getTitle() + "|"  + messageCard.getMessage());
-                }
-            }
-        });
+//        FirebaseRepository firebaseRepository = new FirebaseRepository();
+//
+//        firebaseRepository.getPersonalMessages().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+//            @Override
+//            public void onChanged(ArrayList<MessageCard> messageCards) {
+//
+//                for(MessageCard messageCard: messageCards) {
+//                    Log.d("FIREBASE_REACTIVE", "Observed change in data stream: " + messageCard.getTitle() + "|"  + messageCard.getMessage());
+//                }
+//            }
+//        });
     }
 }

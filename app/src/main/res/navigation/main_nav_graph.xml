@@ -43,4 +43,40 @@
     <action
         android:id="@+id/action_global_welcome_nav_graph"
         app:destination="@id/welcome_nav_graph" />
+    <fragment
+        android:id="@+id/add_new_message_fragment_dest"
+        android:name="dev.ashtonjones.reply.fragments.AddNewMessageFragment"
+        android:label="Add new message"
+        tools:layout="@layout/fragment_add_new_message" />
+    <fragment
+        android:id="@+id/replyFragmentPersonalMessages"
+        android:name="dev.ashtonjones.reply.fragments.ReplyFragmentPersonalMessages"
+        android:label="ReplyFragmentPersonalMessages"
+        tools:layout="@layout/fragment_message_personal_messages" />
+    <fragment
+        android:id="@+id/replyFragmentSocialMessages"
+        android:name="dev.ashtonjones.reply.fragments.ReplyFragmentSocialMessages"
+        android:label="ReplyFragmentSocialMessages"
+        tools:layout="@layout/fragment_message_social_messages" />
+    <fragment
+        android:id="@+id/replyFragmentBusinessMessages"
+        android:name="dev.ashtonjones.reply.fragments.ReplyFragmentBusinessMessages"
+        android:label="ReplyFragmentBusinessMessages"
+        tools:layout="@layout/fragment_message_business_messages" />
+    <fragment
+        android:id="@+id/replyFragmentFirstAdditionalCardMessages"
+        android:name="dev.ashtonjones.reply.fragments.ReplyFragmentFirstAdditionalCardMessages"
+        android:label="ReplyFragmentFirstAdditionalCardMessages"
+        tools:layout="@layout/fragment_message_first_additional_card_messages" />
+    <fragment
+        android:id="@+id/replyFragmentSecondAdditionalCardMessages"
+        android:name="dev.ashtonjones.reply.fragments.ReplyFragmentSecondAdditionalCardMessages"
+        android:label="ReplyFragmentSecondAdditionalCardMessages"
+        tools:layout="@layout/fragment_message_second_additional_card_messages" />
+    <action
+        android:id="@+id/action_global_add_new_message_fragment_dest"
+        app:destination="@id/add_new_message_fragment_dest"
+        app:popUpTo="@layout/fragment_message_personal_messages"/>
+
+
 </navigation>

@@ -12,7 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -136,6 +138,8 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
         // SETUP RECYCLERVIEW
         setUpRecyclerView();
 
+        setUpViewModel();
+
         // INITIALIZE DATA
         initPlaceholderData();
 
@@ -202,17 +206,9 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
 
     public void initData() {
 
-        // Instantiate ArrayList
-        messageCards = new ArrayList<>();
+        Toast.makeText(getContext(), "Loading your messages...", Toast.LENGTH_SHORT).show();
 
-//        // Initialize DataManager
-//        dataManager = new DataManager();
-//
-//        // Initialize ArrayList with data
-//        messageTemplates = dataManager.getSecondAdditionalMessageTemplatesPlaceholderData();
-
-        // Add the data to the Section
-        listSection.addAll(placeholderData);
+        selectedMessage = null;
 
 
     }
@@ -386,8 +382,7 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
 
                     Toast.makeText(getContext(), "Add Action clicked!", Toast.LENGTH_SHORT).show();
 
-
-//                    Navigation.findNavController(speedDialView).navigate(R.id.action_message_fragment_dest_to_add_card_fragment_dest);
+                    Navigation.findNavController(getView()).navigate(R.id.action_global_add_new_message_fragment_dest);
 
                     return false;
 
@@ -497,6 +492,13 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
         super.onResume();
 
         topAppToolbar.setTitle("+2 Messages");
+
+        viewModel.getPlus2MessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+            @Override
+            public void onChanged(ArrayList<MessageCard> messageCards) {
+                listSection.set(messageCards);
+            }
+        });
     }
 
 

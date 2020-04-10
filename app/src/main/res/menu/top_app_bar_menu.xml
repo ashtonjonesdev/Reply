@@ -4,13 +4,13 @@
     <item
         android:id="@+id/about_developer_fragment_dest"
         android:title="About Developer"
-        android:icon="@drawable/ic_code_black_24dp"
-        app:showAsAction="always"
-        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:orderInCategory="10"
         />
 
     <item
         android:id="@+id/sign_out_button"
         android:title="Sign out"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        android:orderInCategory="100"/>
 </menu>

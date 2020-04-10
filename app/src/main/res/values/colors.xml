@@ -108,9 +108,9 @@
     <color name="colorPrimary900">#272940</color>
 
     // Secondary/Accent color
-    <color name="colorSecondary">#595333</color> // Light Blue from Pitch Deck
-    <color name="colorAccent">#626B8B</color> // Light Blue from Pitch Deck
-    <color name="colorSecondaryVariant">#958E6B</color> A100 of Primary color
+    <color name="colorSecondary">#5e6386</color> //
+    <color name="colorAccent">#626B8B</color> //
+    <color name="colorSecondaryVariant">#958E6B</color>
 
     // Surface Colors
     <color name="colorSurface">#FFFFFF</color>

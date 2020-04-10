@@ -19,6 +19,8 @@ public class SelectableItemBinderMessageCard extends ItemBinder<MessageCard, Sel
     // LOG TAG
     private static final String LOG_TAG = SelectableItemBinderMessageCard.class.getSimpleName();
 
+    public static int itemAdapterPosition = -1;
+
     @Override
     public SelectableItemBinderMessageCard.ViewHolder createViewHolder(ViewGroup parent) {
 
@@ -89,7 +91,16 @@ public class SelectableItemBinderMessageCard extends ItemBinder<MessageCard, Sel
             materialCardView = itemView.findViewById(R.id.message_fragment_card_view);
 
             // Select/Deselect the card on click
-            itemView.setOnClickListener(view -> toggleItemSelection());
+            itemView.setOnClickListener(view -> {
+
+                itemAdapterPosition = getAdapterPosition();
+
+                toggleItemSelection();
+
+            });
+
+
+
 //
 //            // Enable drag and drop on long press
 //            itemView.setOnLongClickListener(v -> {

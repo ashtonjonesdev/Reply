@@ -8,6 +8,15 @@ import dev.ashtonjones.reply.datamodels.MessageCard;
 
 public interface RepositoryInterface {
 
-    MutableLiveData<ArrayList<MessageCard>> getMessages();
+    MutableLiveData<ArrayList<MessageCard>> getPersonalMessages();
+
+    MutableLiveData<ArrayList<MessageCard>> getSocialMessages();
+
+    MutableLiveData<ArrayList<MessageCard>> getBusinessMessages();
+
+    MutableLiveData<ArrayList<MessageCard>> getPlus1Messages();
+
+    MutableLiveData<ArrayList<MessageCard>> getPlus2Messages();
+
 
 }

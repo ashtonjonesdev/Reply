@@ -21,11 +21,16 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import dev.ashtonjones.reply.R;
+import dev.ashtonjones.reply.datamodels.MessageCard;
+import dev.ashtonjones.reply.datamodels.User;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -37,6 +42,7 @@ public class SignInFragment extends Fragment {
     private static final int RC_SIGN_IN = 123;
     private static final String LOG_TAG = SignInFragment.class.getSimpleName();
     private SignInButton signInButton;
+    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     public SignInFragment() {
         // Required empty public constructor
@@ -110,22 +116,24 @@ public class SignInFragment extends Fragment {
 //            Toast.makeText(getContext(), "Successfully signed in user: " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT).show();
 
 
-            if(response.isNewUser()) {
+            if (response.isNewUser()) {
 
-                Toast.makeText(getContext(), "Welcome new user!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Welcome, " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+                // Create a new User in the database
+                createNewUser();
+
+                createNewUserDocuments();
 
                 Navigation.findNavController(getView()).navigate(R.id.action_global_welcome_nav_graph);
 
-            }
 
-            else {
+            } else {
 
                 Navigation.findNavController(getView()).navigate(R.id.action_global_reply_fragment_dest);
 
 
             }
-
-
 
 
         } else {
@@ -150,6 +158,30 @@ public class SignInFragment extends Fragment {
 
             Log.e(LOG_TAG, "Sign-in error: ", response.getError());
         }
+    }
+
+    private void createNewUserDocuments() {
+
+
+    }
+
+    /**
+     * Create a new User in the users collection in the database, using the FirebaseUser id as the uID
+     */
+
+    private void createNewUser() {
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        ArrayList<MessageCard> starterList = new ArrayList<MessageCard>();
+
+        starterList.add(new MessageCard("Welcome, " + firebaseUser.getDisplayName(), "Add your own message!"));
+
+        User newUser = new User(firebaseUser.getDisplayName(), firebaseUser.getUid(), starterList, starterList, starterList, starterList, starterList);
+
+        firebaseFirestore.collection("users").document(firebaseUser.getUid()).set(newUser);
+
+
     }
 }
 
