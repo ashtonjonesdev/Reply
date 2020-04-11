@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -493,6 +494,30 @@ public class FirebaseRepository implements RepositoryInterface {
         return messagesLiveData;
 
     }
+
+    @Override
+    public void editMessage(MessageCard oldMessage, MessageCard newMessage) {
+
+        // Use the oldMessage to get the element that shoud be edited
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        String userID = firebaseUser.getUid();
+
+        // Use the index to delete the corresponding MessageCard in the ArrayList field in FB
+        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
+
+        // Delete the old message
+        documentReference.update("personalMessages", FieldValue.arrayRemove(oldMessage));
+
+        // Add the new message
+        documentReference.update("personalMessages", FieldValue.arrayUnion(newMessage));
+
+
+
+    }
+
 
     public void addPersonalMessage(MessageCard messageCard) {
 

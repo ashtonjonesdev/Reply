@@ -76,7 +76,33 @@
     <action
         android:id="@+id/action_global_add_new_message_fragment_dest"
         app:destination="@id/add_new_message_fragment_dest"
-        app:popUpTo="@layout/fragment_message_personal_messages"/>
+        app:popUpTo="@layout/fragment_message_personal_messages" />
+    <fragment
+        android:id="@+id/edit_message_fragment_dest"
+        android:name="dev.ashtonjones.reply.fragments.EditMessageFragment"
+        android:label="Edit message"
+        tools:layout="@layout/fragment_edit_message" />
+    <action
+        android:id="@+id/action_global_editMessageFragment"
+        app:destination="@id/edit_message_fragment_dest">
+        <argument
+            android:name="selectedMessageArg"
+            app:argType="dev.ashtonjones.reply.datamodels.MessageCard"
+            app:nullable="true"
+            android:defaultValue="@null"
+            >
+        </argument>
+    </action>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="dev.ashtonjones.reply.activities.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/replyBaseFragmentViewPager"
+        android:name="dev.ashtonjones.reply.fragments.ReplyBaseFragmentViewPager"
+        android:label="ReplyBaseFragmentViewPager"
+        tools:layout="@layout/fragment_reply"/>
 
 
 </navigation>

@@ -1,6 +1,9 @@
 package dev.ashtonjones.reply.datamodels;
 
-public class MessageCard {
+
+import java.io.Serializable;
+
+public class MessageCard implements Serializable {
 
     private String title;
 

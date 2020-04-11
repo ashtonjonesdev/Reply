@@ -31,11 +31,11 @@ public class AddNewMessageFragment extends Fragment {
     private static final String LOG_TAG = AddNewMessageFragment.class.getSimpleName();
 
 
-    private TextInputLayout textInputLayoutTitle;
-    private TextInputLayout textInputLayoutMessage;
+    private TextInputLayout textInputLayoutTitleAddNewMessage;
+    private TextInputLayout textInputLayoutMessageAddNewMessage;
 
-    private TextInputEditText textInputEditTextTitle;
-    private TextInputEditText textInputEditTextMessage;
+    private TextInputEditText textInputEditTextTitleAddNewMessage;
+    private TextInputEditText textInputEditTextMessageAddNewMessage;
 
     private FloatingActionButton saveFAB;
 
@@ -74,15 +74,15 @@ public class AddNewMessageFragment extends Fragment {
     private void saveNewMessage() {
 
         // Check if fields are null
-        if (textInputEditTextTitle == null || textInputEditTextTitle.length() == 0 || textInputEditTextMessage == null || textInputEditTextMessage.length() == 0) {
+        if (textInputEditTextTitleAddNewMessage == null || textInputEditTextTitleAddNewMessage.length() == 0 || textInputEditTextMessageAddNewMessage == null || textInputEditTextMessageAddNewMessage.length() == 0) {
 
             Toast.makeText(getContext(), "Please enter a title and a message", Toast.LENGTH_SHORT).show();
 
         } else {
 
-            String newTitleString = textInputEditTextTitle.getText().toString();
+            String newTitleString = textInputEditTextTitleAddNewMessage.getText().toString();
 
-            String newMessageString = textInputEditTextMessage.getText().toString();
+            String newMessageString = textInputEditTextMessageAddNewMessage.getText().toString();
 
             MessageCard newMessage = new MessageCard(newTitleString, newMessageString);
 
@@ -152,15 +152,15 @@ public class AddNewMessageFragment extends Fragment {
 
     private void initViews() {
 
-        saveFAB = getView().findViewById(R.id.saveCardFAB);
+        saveFAB = getView().findViewById(R.id.saveCardFABAddNewMessage);
 
-        textInputLayoutMessage = getView().findViewById(R.id.textInputLayoutMessage);
+        textInputLayoutMessageAddNewMessage = getView().findViewById(R.id.textInputLayoutMessageAddNewMessage);
 
-        textInputLayoutTitle = getView().findViewById(R.id.textInputLayoutTitle);
+        textInputLayoutTitleAddNewMessage = getView().findViewById(R.id.textInputLayoutTitleAddNewMessage);
 
-        textInputEditTextMessage = getView().findViewById(R.id.textInputEditTextMessage);
+        textInputEditTextMessageAddNewMessage = getView().findViewById(R.id.textInputEditTextMessageAddNewMessage);
 
-        textInputEditTextTitle = getView().findViewById(R.id.textInputEditTextTitle);
+        textInputEditTextTitleAddNewMessage = getView().findViewById(R.id.textInputEditTextTitleAddNewMessage);
 
         radioGroupMessageCategories = getView().findViewById(R.id.radioGroupMessageCategories);
 

@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.NavInflater;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -36,6 +37,7 @@ import com.leinardi.android.speeddial.SpeedDialView;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.ashtonjones.reply.MainNavGraphDirections;
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.adapters.SelectableItemBinderMessageCard;
 import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
@@ -103,9 +105,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
     // VIEWMODEL
     private PersonalMessagesViewModel viewModel;
-
-    private boolean alreadySelected = false;
-
 
     /**
      * Required empty public constructor
@@ -190,7 +189,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
         Toast.makeText(getContext(), "Loading your messages...", Toast.LENGTH_SHORT).show();
 
         // Set the selected Message to null
-//        selectedMessage = null;
+        selectedMessage = null;
 
 
     }
@@ -326,11 +325,44 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                 // Edit card action
                 case R.id.fab_replace_action:
 
-                    Toast.makeText(getContext(), "Edit Action clicked!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Edit Action clicked!", Toast.LENGTH_SHORT).show();
 
 //                    Navigation.findNavController(speedDialView).navigate(R.id.action_message_fragment_dest_to_edit_card_message_fragment_dest);
 
-                    Log.d(LOG_TAG, "Edit action clicked!");
+                    if(selectedMessage != null) {
+
+
+                        ;
+
+//                        MainNavGraphDirections.ActionGlobalEditMessageFragment actionGlobalEditMessageFragment = MainNavGraphDirections.actionGlobalEditMessageFragment();
+
+//                        actionGlobalEditMessageFragment.setSelectedMessageArg(selectedMessage);
+
+//                        MessageCard messageCard = actionGlobalEditMessageFragment.getSelectedMessageArg();
+
+
+
+//                            Toast.makeText(getContext(), "Selected Message from getSelectedMessageArg: " + messageCard.getMessage(), Toast.LENGTH_SHORT).show();
+
+//                            Navigation.findNavController(getView()).navigate(ReplyFragmentPersonalMessagesDirections.actionGlobalEditMessageFragment().setSelectedMessageArg(selectedMessage));
+
+                        Bundle bundle = new Bundle();
+
+                        bundle.putSerializable("selectedMessageArg", selectedMessage);
+
+                        Navigation.findNavController(getView()).navigate(R.id.action_global_editMessageFragment, bundle);
+
+
+
+                        Log.d(LOG_TAG, "Edit action clicked!");
+
+                    }
+
+                    else {
+
+                        Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
+
+                    }
 
                     return false;
 
@@ -344,17 +376,20 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
                         // TODO: ADD DELETE FUNCTION TO DELETE THE MESSAGE FROM THE DATABASE
 
-
                         MessageCard messageCardToDelete = selectedMessage;
 
                         // Get the index of the selected item
                         int itemAdapterPosition = SelectableItemBinderMessageCard.itemAdapterPosition;
 
-                        Toast.makeText(getContext(), "Message Position: " + itemAdapterPosition, Toast.LENGTH_SHORT).show();
+                        Log.d(LOG_TAG, "Deleting message at position: " + itemAdapterPosition);
 
                         FirebaseRepository firebaseRepository = new FirebaseRepository();
 
                         firebaseRepository.deletePersonalMessage(messageCardToDelete);
+
+                        refreshUI();
+
+                        Toast.makeText(getContext(), "Message deleted!", Toast.LENGTH_SHORT).show();
 
 
                     } else {
@@ -403,43 +438,66 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
         listSection.setOnSelectionChangedListener((item, isSelected, selectedItems) -> {
 
-
-
             Log.d(LOG_TAG, "Item " + item.getMessage() + " was " + (isSelected ? "" : "un") + "selected");
 
+            Log.d(LOG_TAG, "Selected items: " + selectedItems.toString());
 
+            /**
+             *
+             * Handle the case where a new message is being selected and the old one is being deselected
+             *
+             * Sometimes selectedItems contains one or two elements; the 0th element is always the selected item, so can just set it to the 0th element
+             *
+             * If selectedItems list size is greater than 0, know that we are dealing with selection, so don't need to handle unselection logic here
+             *
+             */
 
+            if(selectedItems.size() > 0) {
 
-            if (isSelected) {
+                Log.d(LOG_TAG, "Setting selected item to: " + selectedItems.get(0).getMessage());
 
-                alreadySelected = true;
+                selectedMessage = selectedItems.get(0);
 
-                Log.d(LOG_TAG, "Setting selected item to: " + item.getMessage());
-
-                selectedMessage = item;
+                Log.d(LOG_TAG, "Selected message variable: " + selectedMessage);
 
                 Toast.makeText(getContext(), item.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
 
-            if (!isSelected) {
+            /**
+             *
+             * Handle the case where the same message is being selected/unselected
+             *
+             */
 
-                if(alreadySelected) {
+            else {
 
-                    alreadySelected = false;
+                if (isSelected) {
 
-                    return;
+                    Log.d(LOG_TAG, "Setting selected item to: " + item.getMessage());
+
+                    selectedMessage = item;
+
+                    Toast.makeText(getContext(), item.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
 
-                Log.d(LOG_TAG, "Unselecting item: " + item.getMessage());
+                if (!isSelected) {
 
-                selectedMessage = null;
+                    Log.d(LOG_TAG, "Unselecting item: " + item.getMessage());
+
+                    selectedMessage = null;
+
+                }
+
 
                 Log.d(LOG_TAG, "Selected message variable: " + selectedMessage);
 
-
             }
+
+
+
+
 
         });
 
@@ -587,6 +645,24 @@ public class ReplyFragmentPersonalMessages extends Fragment {
             Navigation.findNavController(getView()).navigate(R.id.action_global_sign_in_nav_graph);
 
         }
+
+    }
+
+    public void refreshUI() {
+
+        viewModel.getPersonalMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+            @Override
+            public void onChanged(ArrayList<MessageCard> messageCards) {
+
+                for (MessageCard messageCard : messageCards) {
+                    Log.d("VIEWMODEL_REACTIVE", "Observed change in data stream: " + messageCard.getTitle() + "|" + messageCard.getMessage());
+                }
+
+                listSection.set(messageCards);
+
+            }
+        });
+
 
     }
 

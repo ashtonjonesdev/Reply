@@ -18,5 +18,7 @@ public interface RepositoryInterface {
 
     MutableLiveData<ArrayList<MessageCard>> getPlus2Messages();
 
+    void editMessage(MessageCard oldMessage, MessageCard newMessage);
+
 
 }

@@ -155,21 +155,64 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
             Log.d(LOG_TAG, "Item " + item.getMessage() + " was " + (isSelected ? "" : "un") + "selected");
 
+            Log.d(LOG_TAG, "Selected items: " + selectedItems.toString());
 
-            if(isSelected) {
+            /**
+             *
+             * Handle the case where a new message is being selected and the old one is being deselected
+             *
+             * Sometimes selectedItems contains one or two elements; the 0th element is always the selected item, so can just set it to the 0th element
+             *
+             * If selectedItems list size is greater than 0, know that we are dealing with selection, so don't need to handle unselection logic here
+             *
+             */
 
-                selectedMessage = item;
+            if(selectedItems.size() > 0) {
 
-                Toast.makeText(getContext(),item.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG, "Setting selected item to: " + selectedItems.get(0).getMessage());
 
+                selectedMessage = selectedItems.get(0);
+
+                Log.d(LOG_TAG, "Selected message variable: " + selectedMessage);
+
+                Toast.makeText(getContext(), item.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
+
+            /**
+             *
+             * Handle the case where the same message is being selected/unselected
+             *
+             */
 
             else {
 
-                selectedMessage = null;
+                if (isSelected) {
+
+                    Log.d(LOG_TAG, "Setting selected item to: " + item.getMessage());
+
+                    selectedMessage = item;
+
+                    Toast.makeText(getContext(), item.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                if (!isSelected) {
+
+                    Log.d(LOG_TAG, "Unselecting item: " + item.getMessage());
+
+                    selectedMessage = null;
+
+                }
+
+
+                Log.d(LOG_TAG, "Selected message variable: " + selectedMessage);
 
             }
+
+
+
+
 
         });
 
