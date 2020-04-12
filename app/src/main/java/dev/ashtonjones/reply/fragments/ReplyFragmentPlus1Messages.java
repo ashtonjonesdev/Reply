@@ -1,6 +1,7 @@
 package dev.ashtonjones.reply.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -97,7 +98,7 @@ public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
         Log.d(LOG_TAG, "onCreateView");
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_message_first_additional_card_messages, container, false);
+        View view = inflater.inflate(R.layout.fragment_message_plus_1_messages, container, false);
 
         return view;
     }
@@ -284,6 +285,7 @@ public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     private void setUpSpeedDialFab() {
 
         /**
@@ -302,15 +304,15 @@ public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
          *
          */
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
 
         /**
@@ -324,8 +326,6 @@ public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
             @Override
             // Main Action is the initial Fab clicked after it is open (In this case, it is the close icon)
             public boolean onMainActionSelected() {
-
-                Toast.makeText(getContext(), "Main Action (Close) clicked!", Toast.LENGTH_SHORT).show();
 
                 Log.d(LOG_TAG, "Main Action (Close) clicked!");
 
@@ -554,6 +554,14 @@ public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
                 listSection.set(messageCards);
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        selectedMessage = null;
+
     }
 
     public void refreshUI() {

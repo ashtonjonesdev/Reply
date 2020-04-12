@@ -3,7 +3,6 @@ package dev.ashtonjones.reply.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,44 +10,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavDestination;
-import androidx.navigation.NavDirections;
-import androidx.navigation.NavInflater;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
-
 import java.util.ArrayList;
-import java.util.List;
 
-import dev.ashtonjones.reply.MainNavGraphDirections;
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.adapters.SelectableItemBinderMessageCard;
-import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
 import dev.ashtonjones.reply.datalayer.viewmodel.PersonalMessagesViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
-
 import mva2.adapter.ListSection;
 import mva2.adapter.MultiViewAdapter;
 import mva2.adapter.util.Mode;
-import mva2.adapter.util.OnSelectionChangedListener;
 
 
 /**
@@ -225,15 +210,15 @@ public class ReplyFragmentPersonalMessages extends Fragment {
          *
          */
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimary500).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimary600).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimary700).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimary800).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimary900).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
 
         /**
@@ -247,8 +232,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
             @Override
             // Main Action is the initial Fab clicked after it is open (In this case, it is the close icon)
             public boolean onMainActionSelected() {
-
-                Toast.makeText(getContext(), "Main Action (Close) clicked!", Toast.LENGTH_SHORT).show();
 
                 Log.d(LOG_TAG, "Main Action (Close) clicked!");
 
@@ -325,7 +308,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                 // Edit card action
                 case R.id.fab_replace_action:
 
-                    if(selectedMessage != null) {
+                    if (selectedMessage != null) {
 
                         int personalMessageFragmentDestID = R.id.reply_fragment_personal_messages_dest;
 
@@ -341,9 +324,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
                         Log.d(LOG_TAG, "Edit action clicked!");
 
-                    }
-
-                    else {
+                    } else {
 
                         Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
 
@@ -429,7 +410,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
              *
              */
 
-            if(selectedItems.size() > 0) {
+            if (selectedItems.size() > 0) {
 
                 Log.d(LOG_TAG, "Setting selected item to: " + selectedItems.get(0).getMessage());
 
@@ -471,9 +452,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                 Log.d(LOG_TAG, "Selected message variable: " + selectedMessage);
 
             }
-
-
-
 
 
         });
@@ -608,10 +586,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                 @Override
                 public void onChanged(ArrayList<MessageCard> messageCards) {
 
-                    for (MessageCard messageCard : messageCards) {
-                        Log.d("VIEWMODEL_REACTIVE", "Observed change in data stream: " + messageCard.getTitle() + "|" + messageCard.getMessage());
-                    }
-
                     listSection.set(messageCards);
 
                 }
@@ -622,6 +596,14 @@ public class ReplyFragmentPersonalMessages extends Fragment {
             Navigation.findNavController(getView()).navigate(R.id.action_global_sign_in_nav_graph);
 
         }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        selectedMessage = null;
 
     }
 

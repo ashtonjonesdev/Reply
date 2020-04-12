@@ -45,12 +45,6 @@ public class FirebaseRepository implements RepositoryInterface {
         // Intialize the LiveData variable
         personalMessagesLiveData = new MutableLiveData<>();
 
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        String userID = firebaseUser.getUid();
-//
-//        Log.d(LOG_TAG, "UserID: " + userID);
-
         firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -94,12 +88,6 @@ public class FirebaseRepository implements RepositoryInterface {
 
         // Intialize the LiveData variable
         socialMessagesLiveData = new MutableLiveData<>();
-
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        String userID = firebaseUser.getUid();
-//
-//        Log.d(LOG_TAG, userID);
 
         firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -145,11 +133,6 @@ public class FirebaseRepository implements RepositoryInterface {
         // Intialize the LiveData variable
         businessMessagesLiveData = new MutableLiveData<>();
 
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        String userID = firebaseUser.getUid();
-//
-//        Log.d(LOG_TAG, userID);
 
         firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -195,11 +178,6 @@ public class FirebaseRepository implements RepositoryInterface {
         // Intialize the LiveData variable
         plus1MessagesLiveData = new MutableLiveData<>();
 
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        String userID = firebaseUser.getUid();
-//
-//        Log.d(LOG_TAG, userID);
 
         firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -243,12 +221,6 @@ public class FirebaseRepository implements RepositoryInterface {
 
         // Intialize the LiveData variable
         plus2MessagesLiveData = new MutableLiveData<>();
-
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        String userID = firebaseUser.getUid();
-//
-//        Log.d(LOG_TAG, userID);
 
         firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

@@ -1,6 +1,7 @@
 package dev.ashtonjones.reply.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -24,14 +24,11 @@ import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.adapters.SelectableItemBinderMessageCard;
-import dev.ashtonjones.reply.datalayer.viewmodel.PersonalMessagesViewModel;
 import dev.ashtonjones.reply.datalayer.viewmodel.SocialMessagesViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
-
 import mva2.adapter.ListSection;
 import mva2.adapter.MultiViewAdapter;
 import mva2.adapter.util.Mode;
@@ -282,6 +279,7 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     private void setUpSpeedDialFab() {
 
         /**
@@ -300,15 +298,15 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
          *
          */
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).create());
+        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
 
 
@@ -325,8 +323,6 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
             @Override
             // Main Action is the initial Fab clicked after it is open (In this case, it is the close icon)
             public boolean onMainActionSelected() {
-
-                Toast.makeText(getContext(), "Main Action (Close) clicked!", Toast.LENGTH_SHORT).show();
 
                 Log.d(LOG_TAG, "Main Action (Close) clicked!");
 
@@ -587,6 +583,14 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
                 listSection.set(messageCards);
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        selectedMessage = null;
+
     }
 
     public void refreshUI() {

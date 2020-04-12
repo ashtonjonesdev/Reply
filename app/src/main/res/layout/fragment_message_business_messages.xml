@@ -1,10 +1,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout_fragment_message_business_messages"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="dev.letsconnect.letsConnect.fragments.ConnectFragment">
+    android:layout_height="match_parent">
 
     <!--CardViews from fragment_message_card_view items are placed here inside the RecyclerView, which contains cards to send messages-->
 
@@ -28,6 +26,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:sdExpansionMode="top"
+        app:sdMainFabClosedBackgroundColor="@color/colorPrimaryLight"
+        app:sdMainFabOpenedBackgroundColor="@color/colorPrimaryLight"
         app:sdMainFabAnimationRotateAngle="0"
         app:sdMainFabClosedSrc="@drawable/ic_forum_black_24dp"
         app:sdMainFabOpenedSrc="@drawable/ic_close_black_24dp"

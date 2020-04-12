@@ -67,12 +67,12 @@
         android:id="@+id/reply_fragment_plus_1_messages_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyFragmentPlus1Messages"
         android:label="ReplyFragmentFirstAdditionalCardMessages"
-        tools:layout="@layout/fragment_message_first_additional_card_messages" />
+        tools:layout="@layout/fragment_message_plus_1_messages" />
     <fragment
         android:id="@+id/reply_fragment_plus_2_messages_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyFragmentPlus2Messages"
         android:label="ReplyFragmentSecondAdditionalCardMessages"
-        tools:layout="@layout/fragment_message_second_additional_card_messages" />
+        tools:layout="@layout/fragment_message_plus_2_messages" />
     <action
         android:id="@+id/action_global_add_new_message_fragment_dest"
         app:destination="@id/add_new_message_fragment_dest"
