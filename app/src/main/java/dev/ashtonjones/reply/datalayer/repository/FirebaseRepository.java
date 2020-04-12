@@ -1,13 +1,11 @@
 package dev.ashtonjones.reply.datalayer.repository;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,11 +13,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.List;
 
 import dev.ashtonjones.reply.datamodels.MessageCard;
 import dev.ashtonjones.reply.datamodels.User;
@@ -30,65 +25,33 @@ public class FirebaseRepository implements RepositoryInterface {
 
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
-    private MutableLiveData<ArrayList<MessageCard>> messagesLiveData;
+    private MutableLiveData<ArrayList<MessageCard>> personalMessagesLiveData;
+    private MutableLiveData<ArrayList<MessageCard>> socialMessagesLiveData;
+    private MutableLiveData<ArrayList<MessageCard>> businessMessagesLiveData;
+    private MutableLiveData<ArrayList<MessageCard>> plus1MessagesLiveData;
+    private MutableLiveData<ArrayList<MessageCard>> plus2MessagesLiveData;
 
+
+    /**
+     *
+     * GET METHODS
+     *
+     * @return
+     */
     @Override
-    public MutableLiveData<ArrayList<MessageCard>> getPersonalMessages() {
+    public MutableLiveData<ArrayList<MessageCard>> getPersonalMessagesLiveData() {
 
-//        // Intialize the LiveData variable
-//        messagesLiveData = new MutableLiveData<>();
-
-
-
-//        firebaseFirestore.collection("personal_messages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-////            @Override
-////            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-////
-////
-////                // Get all documents from the collection
-////                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-////
-////                // Iterate through all the documents in the collection, and create a POJO using the MessageCard model class
-////                for (DocumentSnapshot documentSnapshot : documents) {
-////
-////                    // Create a POJO for the document using the model class
-////                    MessageCard documentMessage = documentSnapshot.toObject(MessageCard.class);
-////
-////                    Log.d(LOG_TAG, "Adding document from Firebase: " + documentMessage.getTitle() + "|" + documentMessage.getMessage());
-////
-////                    // Add the POJO to the ArrayList
-////                    messages.add(documentMessage);
-////
-////                    for(MessageCard messageCard: messages) {
-////
-////                        Log.d(LOG_TAG, "Current List of Messages from Firebase: " + messageCard.getTitle() + " " + messageCard.getMessage());
-////
-////
-////                    }
-////
-////                    // Set the value of the MutableLiveData object
-////                    messagesLiveData.postValue(messages);
-////
-////
-////
-////
-////                }
-////
-////            }
-////        });
-
-        // Get the User
 
         // Intialize the LiveData variable
-        messagesLiveData = new MutableLiveData<>();
+        personalMessagesLiveData = new MutableLiveData<>();
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        String userID = firebaseUser.getUid();
+//
+//        Log.d(LOG_TAG, "UserID: " + userID);
 
-        String userID = firebaseUser.getUid();
-
-        Log.d(LOG_TAG, "UserID: " + userID);
-
-        firebaseFirestore.collection("users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
@@ -106,7 +69,7 @@ public class FirebaseRepository implements RepositoryInterface {
 
                         Log.d(LOG_TAG, "Personal Messages: " + messages.toString());
 
-                        messagesLiveData.postValue(messages);
+                        personalMessagesLiveData.postValue(messages);
 
                     }
 
@@ -122,66 +85,23 @@ public class FirebaseRepository implements RepositoryInterface {
 
 
 
-        return messagesLiveData;
+        return personalMessagesLiveData;
     }
 
     @Override
-    public MutableLiveData<ArrayList<MessageCard>> getSocialMessages() {
-//        // Intialize the LiveData variable
-//        messagesLiveData = new MutableLiveData<>();
-//
-//        // List that will hold the messages
-//        ArrayList<MessageCard> messages = new ArrayList<>();
-//
-//        firebaseFirestore.collection("social_messages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//
-//
-//                // Get all documents from the collection
-//                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-//
-//                // Iterate through all the documents in the collection, and create a POJO using the MessageCard model class
-//                for (DocumentSnapshot documentSnapshot : documents) {
-//
-//                    // Create a POJO for the document using the model class
-//                    MessageCard documentMessage = documentSnapshot.toObject(MessageCard.class);
-//
-//                    Log.d(LOG_TAG, "Adding document from Firebase: " + documentMessage.getTitle() + "|" + documentMessage.getMessage());
-//
-//                    // Add the POJO to the ArrayList
-//                    messages.add(documentMessage);
-//
-//                    for(MessageCard messageCard: messages) {
-//
-//                        Log.d(LOG_TAG, "Current List of Messages from Firebase: " + messageCard.getTitle() + " " + messageCard.getMessage());
-//
-//
-//                    }
-//
-//                    // Set the value of the MutableLiveData object
-//                    messagesLiveData.postValue(messages);
-//
-//
-//
-//
-//                }
-//
-//            }
-//        });
-//
-//        return messagesLiveData;
+    public MutableLiveData<ArrayList<MessageCard>> getSocialMessagesLiveData() {
+
 
         // Intialize the LiveData variable
-        messagesLiveData = new MutableLiveData<>();
+        socialMessagesLiveData = new MutableLiveData<>();
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        String userID = firebaseUser.getUid();
+//
+//        Log.d(LOG_TAG, userID);
 
-        String userID = firebaseUser.getUid();
-
-        Log.d(LOG_TAG, userID);
-
-        firebaseFirestore.collection("users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
@@ -199,7 +119,7 @@ public class FirebaseRepository implements RepositoryInterface {
 
                         Log.d(LOG_TAG, "Social Messages: " + messages.toString());
 
-                        messagesLiveData.postValue(messages);
+                        socialMessagesLiveData.postValue(messages);
 
                     }
 
@@ -215,66 +135,23 @@ public class FirebaseRepository implements RepositoryInterface {
 
 
 
-        return messagesLiveData;
+        return socialMessagesLiveData;
     }
 
     @Override
-    public MutableLiveData<ArrayList<MessageCard>> getBusinessMessages() {
-//        // Intialize the LiveData variable
-//        messagesLiveData = new MutableLiveData<>();
-//
-//        // List that will hold the messages
-//        ArrayList<MessageCard> messages = new ArrayList<>();
-//
-//        firebaseFirestore.collection("business_messages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//
-//
-//                // Get all documents from the collection
-//                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-//
-//                // Iterate through all the documents in the collection, and create a POJO using the MessageCard model class
-//                for (DocumentSnapshot documentSnapshot : documents) {
-//
-//                    // Create a POJO for the document using the model class
-//                    MessageCard documentMessage = documentSnapshot.toObject(MessageCard.class);
-//
-//                    Log.d(LOG_TAG, "Adding document from Firebase: " + documentMessage.getTitle() + "|" + documentMessage.getMessage());
-//
-//                    // Add the POJO to the ArrayList
-//                    messages.add(documentMessage);
-//
-//                    for(MessageCard messageCard: messages) {
-//
-//                        Log.d(LOG_TAG, "Current List of Messages from Firebase: " + messageCard.getTitle() + " " + messageCard.getMessage());
-//
-//
-//                    }
-//
-//                    // Set the value of the MutableLiveData object
-//                    messagesLiveData.postValue(messages);
-//
-//
-//
-//
-//                }
-//
-//            }
-//        });
-//
-//        return messagesLiveData;
+    public MutableLiveData<ArrayList<MessageCard>> getBusinessMessagesLiveData() {
+
 
         // Intialize the LiveData variable
-        messagesLiveData = new MutableLiveData<>();
+        businessMessagesLiveData = new MutableLiveData<>();
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        String userID = firebaseUser.getUid();
+//
+//        Log.d(LOG_TAG, userID);
 
-        String userID = firebaseUser.getUid();
-
-        Log.d(LOG_TAG, userID);
-
-        firebaseFirestore.collection("users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
@@ -292,7 +169,7 @@ public class FirebaseRepository implements RepositoryInterface {
 
                         Log.d(LOG_TAG, "Business Messages: " + messages.toString());
 
-                        messagesLiveData.postValue(messages);
+                        businessMessagesLiveData.postValue(messages);
 
                     }
 
@@ -308,65 +185,23 @@ public class FirebaseRepository implements RepositoryInterface {
 
 
 
-        return messagesLiveData;
+        return businessMessagesLiveData;
         }
 
     @Override
-    public MutableLiveData<ArrayList<MessageCard>> getPlus1Messages() {
-//        // Intialize the LiveData variable
-//        messagesLiveData = new MutableLiveData<>();
-//
-//        // List that will hold the messages
-//        ArrayList<MessageCard> messages = new ArrayList<>();
-//
-//        firebaseFirestore.collection("plus_1_messages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//
-//
-//                // Get all documents from the collection
-//                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-//
-//                // Iterate through all the documents in the collection, and create a POJO using the MessageCard model class
-//                for (DocumentSnapshot documentSnapshot : documents) {
-//
-//                    // Create a POJO for the document using the model class
-//                    MessageCard documentMessage = documentSnapshot.toObject(MessageCard.class);
-//
-//                    Log.d(LOG_TAG, "Adding document from Firebase: " + documentMessage.getTitle() + "|" + documentMessage.getMessage());
-//
-//                    // Add the POJO to the ArrayList
-//                    messages.add(documentMessage);
-//
-//                    for(MessageCard messageCard: messages) {
-//
-//                        Log.d(LOG_TAG, "Current List of Messages from Firebase: " + messageCard.getTitle() + " " + messageCard.getMessage());
-//
-//
-//                    }
-//
-//                    // Set the value of the MutableLiveData object
-//                    messagesLiveData.postValue(messages);
-//
-//
-//
-//
-//                }
-//
-//            }
-//        });
-//
+    public MutableLiveData<ArrayList<MessageCard>> getPlus1MessagesLiveData() {
+
 
         // Intialize the LiveData variable
-        messagesLiveData = new MutableLiveData<>();
+        plus1MessagesLiveData = new MutableLiveData<>();
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        String userID = firebaseUser.getUid();
+//
+//        Log.d(LOG_TAG, userID);
 
-        String userID = firebaseUser.getUid();
-
-        Log.d(LOG_TAG, userID);
-
-        firebaseFirestore.collection("users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
@@ -384,7 +219,7 @@ public class FirebaseRepository implements RepositoryInterface {
 
                         Log.d(LOG_TAG, "Plus 1 Messages: " + messages.toString());
 
-                        messagesLiveData.postValue(messages);
+                        plus1MessagesLiveData.postValue(messages);
 
                     }
 
@@ -400,64 +235,22 @@ public class FirebaseRepository implements RepositoryInterface {
 
 
 
-        return messagesLiveData;
+        return plus1MessagesLiveData;
     }
 
     @Override
-    public MutableLiveData<ArrayList<MessageCard>> getPlus2Messages() {
-//        // Intialize the LiveData variable
-//        messagesLiveData = new MutableLiveData<>();
-//
-//        // List that will hold the messages
-//        ArrayList<MessageCard> messages = new ArrayList<>();
-//
-//        firebaseFirestore.collection("plus_2_messages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//
-//
-//                // Get all documents from the collection
-//                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-//
-//                // Iterate through all the documents in the collection, and create a POJO using the MessageCard model class
-//                for (DocumentSnapshot documentSnapshot : documents) {
-//
-//                    // Create a POJO for the document using the model class
-//                    MessageCard documentMessage = documentSnapshot.toObject(MessageCard.class);
-//
-//                    Log.d(LOG_TAG, "Adding document from Firebase: " + documentMessage.getTitle() + "|" + documentMessage.getMessage());
-//
-//                    // Add the POJO to the ArrayList
-//                    messages.add(documentMessage);
-//
-//                    for(MessageCard messageCard: messages) {
-//
-//                        Log.d(LOG_TAG, "Current List of Messages from Firebase: " + messageCard.getTitle() + " " + messageCard.getMessage());
-//
-//
-//                    }
-//
-//                    // Set the value of the MutableLiveData object
-//                    messagesLiveData.postValue(messages);
-//
-//
-//
-//
-//                }
-//
-//            }
-//        });
+    public MutableLiveData<ArrayList<MessageCard>> getPlus2MessagesLiveData() {
 
         // Intialize the LiveData variable
-        messagesLiveData = new MutableLiveData<>();
+        plus2MessagesLiveData = new MutableLiveData<>();
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        String userID = firebaseUser.getUid();
+//
+//        Log.d(LOG_TAG, userID);
 
-        String userID = firebaseUser.getUid();
-
-        Log.d(LOG_TAG, userID);
-
-        firebaseFirestore.collection("users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
@@ -475,7 +268,7 @@ public class FirebaseRepository implements RepositoryInterface {
 
                         Log.d(LOG_TAG, "Plus 2 Messages: " + messages.toString());
 
-                        messagesLiveData.postValue(messages);
+                        plus2MessagesLiveData.postValue(messages);
 
                     }
 
@@ -491,22 +284,23 @@ public class FirebaseRepository implements RepositoryInterface {
 
 
 
-        return messagesLiveData;
+        return plus2MessagesLiveData;
 
     }
 
+    /**
+     *
+     * EDIT METHODS
+     *
+     * @param oldMessage
+     * @param newMessage
+     */
+
     @Override
-    public void editMessage(MessageCard oldMessage, MessageCard newMessage) {
-
-        // Use the oldMessage to get the element that shoud be edited
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        String userID = firebaseUser.getUid();
+    public void editPersonalMessage(MessageCard oldMessage, MessageCard newMessage) {
 
         // Use the index to delete the corresponding MessageCard in the ArrayList field in FB
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
+        DocumentReference documentReference = getUserDocument(getUid());
 
         // Delete the old message
         documentReference.update("personalMessages", FieldValue.arrayRemove(oldMessage));
@@ -514,86 +308,186 @@ public class FirebaseRepository implements RepositoryInterface {
         // Add the new message
         documentReference.update("personalMessages", FieldValue.arrayUnion(newMessage));
 
-
-
     }
 
-
-    public void addPersonalMessage(MessageCard messageCard) {
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        String userID = firebaseUser.getUid();
-
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
-
-        documentReference.update("personalMessages", FieldValue.arrayUnion(messageCard));
-
-    }
-
-    public void addSocialMessage(MessageCard messageCard) {
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        String userID = firebaseUser.getUid();
-
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
-
-        documentReference.update("socialMessages", FieldValue.arrayUnion(messageCard));
-
-    }
-
-    public void addBusinessMessage(MessageCard messageCard) {
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        String userID = firebaseUser.getUid();
-
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
-
-        documentReference.update("businessMessages", FieldValue.arrayUnion(messageCard));
-
-    }
-
-    public void addPlus1Message(MessageCard messageCard) {
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        String userID = firebaseUser.getUid();
-
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
-
-        documentReference.update("plus1Messages", FieldValue.arrayUnion(messageCard));
-
-    }
-
-    public void addPlus2Message(MessageCard messageCard) {
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        String userID = firebaseUser.getUid();
-
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
-
-        documentReference.update("plus2Messages", FieldValue.arrayUnion(messageCard));
-
-    }
-
-    public void deletePersonalMessage(MessageCard messageCardToDelete) {
-
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        String userID = firebaseUser.getUid();
+    @Override
+    public void editSocialMessage(MessageCard oldMessage, MessageCard newMessage) {
 
         // Use the index to delete the corresponding MessageCard in the ArrayList field in FB
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
+        DocumentReference documentReference = getUserDocument(getUid());
 
-//        MessageCard messageCardToDelete = new MessageCard("hello", "my new message");
+        // Delete the old message
+        documentReference.update("socialMessages", FieldValue.arrayRemove(oldMessage));
 
-        documentReference.update("personalMessages", FieldValue.arrayRemove(messageCardToDelete));
-
+        // Add the new message
+        documentReference.update("socialMessages", FieldValue.arrayUnion(newMessage));
 
     }
+
+    @Override
+    public void editBusinessMessage(MessageCard oldMessage, MessageCard newMessage) {
+
+        // Use the index to delete the corresponding MessageCard in the ArrayList field in FB
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        // Delete the old message
+        documentReference.update("businessMessages", FieldValue.arrayRemove(oldMessage));
+
+        // Add the new message
+        documentReference.update("businessMessages", FieldValue.arrayUnion(newMessage));
+
+    }
+
+    @Override
+    public void editPlus1Message(MessageCard oldMessage, MessageCard newMessage) {
+
+        // Use the index to delete the corresponding MessageCard in the ArrayList field in FB
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        // Delete the old message
+        documentReference.update("plus1Messages", FieldValue.arrayRemove(oldMessage));
+
+        // Add the new message
+        documentReference.update("plus1Messages", FieldValue.arrayUnion(newMessage));
+
+    }
+
+    @Override
+    public void editPlus2Message(MessageCard oldMessage, MessageCard newMessage) {
+
+        // Use the index to delete the corresponding MessageCard in the ArrayList field in FB
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        // Delete the old message
+        documentReference.update("plus2Messages", FieldValue.arrayRemove(oldMessage));
+
+        // Add the new message
+        documentReference.update("plus2Messages", FieldValue.arrayUnion(newMessage));
+
+    }
+
+    /**
+     *
+     * DELETE METHODS
+     *
+     * @param messageToDelete
+     */
+
+    @Override
+    public void deletePersonalMessage(MessageCard messageToDelete) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("personalMessages", FieldValue.arrayRemove(messageToDelete));
+
+    }
+
+    @Override
+    public void deleteSocialMessage(MessageCard messageToDelete) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("socialMessages", FieldValue.arrayRemove(messageToDelete));
+
+    }
+
+    @Override
+    public void deleteBusinessMessage(MessageCard messageToDelete) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("businessMessages", FieldValue.arrayRemove(messageToDelete));
+
+    }
+
+    @Override
+    public void deletePlus1Message(MessageCard messageToDelete) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("plus1Messages", FieldValue.arrayRemove(messageToDelete));
+
+    }
+
+    @Override
+    public void deletePlus2Message(MessageCard messageToDelete) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("plus2Messages", FieldValue.arrayRemove(messageToDelete));
+
+    }
+
+    /**
+     *
+     * ADD METHODS
+     *
+     * @param messageToAdd
+     */
+
+    @Override
+    public void addPersonalMessage(MessageCard messageToAdd) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("personalMessages", FieldValue.arrayUnion(messageToAdd));
+
+    }
+
+
+    @Override
+    public void addSocialMessage(MessageCard messageToAdd) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("socialMessages", FieldValue.arrayUnion(messageToAdd));
+
+    }
+
+    @Override
+    public void addBusinessMessage(MessageCard messageToAdd) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("businessMessages", FieldValue.arrayUnion(messageToAdd));
+
+    }
+
+    @Override
+    public void addPlus1Message(MessageCard messageToAdd) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("plus1Messages", FieldValue.arrayUnion(messageToAdd));
+
+    }
+
+    @Override
+    public void addPlus2Message(MessageCard messageToAdd) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("plus2Messages", FieldValue.arrayUnion(messageToAdd));
+
+    }
+
+    public String getUid() {
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        String userID = firebaseUser.getUid();
+
+        return userID;
+
+    }
+
+    public DocumentReference getUserDocument(String uID) {
+
+        DocumentReference userDocument = firebaseFirestore.collection("users").document(uID);
+
+        return userDocument;
+
+    }
+
+
 }

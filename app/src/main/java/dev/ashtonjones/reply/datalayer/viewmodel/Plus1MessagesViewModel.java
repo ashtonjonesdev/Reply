@@ -25,8 +25,15 @@ public class Plus1MessagesViewModel extends ViewModel {
 
     public LiveData<ArrayList<MessageCard>> getPlus1MessagesLiveData() {
 
-        plus1MessagesLiveData = firebaseRepository.getPlus1Messages();
+        plus1MessagesLiveData = firebaseRepository.getPlus1MessagesLiveData();
 
         return plus1MessagesLiveData;
     }
+
+    public void deletePlus1Message(MessageCard messageToDelete) {
+
+        firebaseRepository.deletePlus1Message(messageToDelete);
+
+    }
+
 }

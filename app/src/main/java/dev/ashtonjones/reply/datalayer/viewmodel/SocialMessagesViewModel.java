@@ -25,8 +25,15 @@ public class SocialMessagesViewModel extends ViewModel {
 
     public LiveData<ArrayList<MessageCard>> getSocialMessagesLiveData() {
 
-        socialMessagesLiveData = firebaseRepository.getSocialMessages();
+        socialMessagesLiveData = firebaseRepository.getSocialMessagesLiveData();
 
         return socialMessagesLiveData;
     }
+
+    public void deleteSocialMessage(MessageCard messageToDelete) {
+
+        firebaseRepository.deleteSocialMessage(messageToDelete);
+
+    }
+
 }

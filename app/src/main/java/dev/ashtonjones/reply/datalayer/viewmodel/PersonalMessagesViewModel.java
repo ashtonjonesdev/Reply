@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+
 import java.util.ArrayList;
 
 import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
@@ -25,9 +28,15 @@ public class PersonalMessagesViewModel extends ViewModel {
 
     public LiveData<ArrayList<MessageCard>> getPersonalMessagesLiveData() {
 
-        personalMessagesLiveData = firebaseRepository.getPersonalMessages();
+        personalMessagesLiveData = firebaseRepository.getPersonalMessagesLiveData();
 
         return personalMessagesLiveData;
+    }
+
+    public void deletePersonalMessage(MessageCard messageToDelete) {
+
+        firebaseRepository.deletePersonalMessage(messageToDelete);
+
     }
 
 }

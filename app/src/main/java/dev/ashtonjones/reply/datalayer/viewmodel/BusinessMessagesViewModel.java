@@ -25,8 +25,15 @@ public class BusinessMessagesViewModel extends ViewModel {
 
     public LiveData<ArrayList<MessageCard>> getBusinessMessagesLiveData() {
 
-        businessMessagesLiveData = firebaseRepository.getBusinessMessages();
+        businessMessagesLiveData = firebaseRepository.getBusinessMessagesLiveData();
 
         return businessMessagesLiveData;
     }
+
+    public void deleteBusinessMessage(MessageCard messageToDelete) {
+
+        firebaseRepository.deleteBusinessMessage(messageToDelete);
+
+    }
+
 }

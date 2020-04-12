@@ -23,12 +23,10 @@ import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.adapters.SelectableItemBinderMessageCard;
 import dev.ashtonjones.reply.datalayer.viewmodel.Plus1MessagesViewModel;
-import dev.ashtonjones.reply.datalayer.viewmodel.Plus2MessagesViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 
 import mva2.adapter.ListSection;
@@ -37,22 +35,21 @@ import mva2.adapter.util.Mode;
 
 
 /**
- *
- *
+ * TODO: Update this class to use Room (see MessageFragmentPersonalMessages Fragment)
+ * <p>
  * The MessageFragment class is a fragment within the Main Activity that shows the user buttons that they can tap to send a predefined message
- *
+ * <p>
  * The Fragment uses a RecyclerView with a Card for each item that displays the CardView title and CardView image, and contains a message to be sent once the card is clicked
- *
+ * <p>
  * The fragment also uses a TabLayout to change the data of the cards based on the selected tab
- *
+ * <p>
  * The tabs represent each "type" of messages, such as "Personal messages" and "Business messages", so on, and reflect the same tabs (types) in the user's My Connect Cards
- *
+ * <p>
  * When a different tab is selected, it updates the cards to reflect the appropriate messages; for example, when the Business tab is selected, it will show the appropriate Business message cards
- *
  */
-public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragmentViewPager {
+public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
 
-    private static final String LOG_TAG = ReplyFragmentSecondAdditionalCardMessages.class.getSimpleName();
+    private static final String LOG_TAG = ReplyFragmentPlus1Messages.class.getSimpleName();
 
 
     /// References for member variables.
@@ -64,13 +61,9 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
 
     private MultiViewAdapter multiViewAdapter;
 
-    private List<MessageCard> messageCards;
-
     private ListSection<MessageCard> listSection;
 
     private SelectableItemBinderMessageCard selectableItemBinderMessageCard;
-
-//    private DataManager dataManager;
 
     private MessageCard selectedMessage;
 
@@ -78,19 +71,14 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
 
     private ArrayList<MessageCard> placeholderData = new ArrayList<>();
 
-    private Plus2MessagesViewModel viewModel;
-
-
-
+    private Plus1MessagesViewModel viewModel;
 
 
     /**
-     *
      * Required empty public constructor
-     *
      */
 
-    public ReplyFragmentSecondAdditionalCardMessages() {
+    public ReplyFragmentPlus1Messages() {
 
     }
 
@@ -106,17 +94,15 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         Log.d(LOG_TAG, "onCreateView");
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_message_second_additional_card_messages, container, false);
+        View view = inflater.inflate(R.layout.fragment_message_first_additional_card_messages, container, false);
 
         return view;
     }
 
     /**
-     *
      * Had to move all initialization code here (including the calls to setAdapter() and initializeData() to avoid null pointer exceptions
      *
      * @param view
@@ -138,6 +124,7 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
         // SETUP RECYCLERVIEW
         setUpRecyclerView();
 
+        // SETUP VIEWMODEL
         setUpViewModel();
 
         // INITIALIZE DATA
@@ -149,16 +136,6 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
         setUpSectionSelection();
 
         setUpSpeedDialFab();
-
-    }
-
-    public void initViews() {
-
-        recyclerView = getView().findViewById(R.id.recycler_view_fragment_message_second_additional_card_messages);
-
-        speedDialView = getView().findViewById(R.id.speedDialFabSecondAdditionalCardMessagesFragment);
-
-        topAppToolbar = getActivity().findViewById(R.id.top_app_bar_toolbar_main_activity);
 
     }
 
@@ -180,7 +157,7 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
              *
              */
 
-            if(selectedItems.size() > 0) {
+            if (selectedItems.size() > 0) {
 
                 Log.d(LOG_TAG, "Setting selected item to: " + selectedItems.get(0).getMessage());
 
@@ -224,9 +201,6 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
             }
 
 
-
-
-
         });
 
     }
@@ -253,12 +227,11 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
 
         selectedMessage = null;
 
-
     }
 
     private void setUpViewModel() {
 
-        viewModel = new ViewModelProvider(this).get(Plus2MessagesViewModel.class);
+        viewModel = new ViewModelProvider(this).get(Plus1MessagesViewModel.class);
 
     }
 
@@ -340,9 +313,6 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
         speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).create());
 
 
-
-
-
         /**
          *
          * Used to decide what to do when the FAB is opened or closed
@@ -389,13 +359,11 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
 
                     Log.d(LOG_TAG, "Send action clicked!");
 
-                    if(selectedMessage != null) {
+                    if (selectedMessage != null) {
 
                         sendMessage();
 
-                    }
-
-                    else {
+                    } else {
 
                         Toast.makeText(getContext(), "No Message Selected", Toast.LENGTH_SHORT).show();
 
@@ -405,13 +373,11 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
                 // Preview message action
                 case R.id.fab_search_action:
 
-                    if(selectedMessage != null) {
+                    if (selectedMessage != null) {
 
                         showMessagePreview();
 
-                    }
-
-                    else {
+                    } else {
 
                         Toast.makeText(getContext(), "No Message Selected", Toast.LENGTH_SHORT).show();
 
@@ -419,11 +385,10 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
 
                     return false;
 
-
                 // Add card action
                 case R.id.fab_add_action:
 
-                    Toast.makeText(getContext(), "Add Action clicked!", Toast.LENGTH_SHORT).show();
+                    Log.d(LOG_TAG, "Add action clicked");
 
                     Navigation.findNavController(getView()).navigate(R.id.action_global_add_new_message_fragment_dest);
 
@@ -432,33 +397,57 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
                 // Edit card action
                 case R.id.fab_replace_action:
 
-                    Toast.makeText(getContext(), "Edit Action clicked!", Toast.LENGTH_SHORT).show();
+                    if (selectedMessage != null) {
 
-//                    Navigation.findNavController(speedDialView).navigate(R.id.action_message_fragment_dest_to_edit_card_message_fragment_dest);
+                        int plus1MessageFragmentDestID = R.id.reply_fragment_plus_1_messages_dest;
 
-                    Log.d(LOG_TAG, "Edit action clicked!");
+                        Log.d(LOG_TAG, "Personal Messages Fragment ID: " + plus1MessageFragmentDestID);
+
+                        Bundle bundle = new Bundle();
+
+                        bundle.putSerializable("selectedMessageArg", selectedMessage);
+
+                        bundle.putInt("fromDestinationArg", plus1MessageFragmentDestID);
+
+                        Navigation.findNavController(getView()).navigate(R.id.action_global_editMessageFragment, bundle);
+
+                        Log.d(LOG_TAG, "Edit action clicked!");
+
+                    } else {
+
+                        Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
+
+                    }
 
                     return false;
 
                 // Delete card action
                 case R.id.fab_remove_action:
 
-                    if(selectedMessage != null) {
+                    Log.d(LOG_TAG, "Delete action clicked!");
 
-                        Toast.makeText(getContext(), "Delete Action clicked!", Toast.LENGTH_SHORT).show();
+                    if (selectedMessage != null) {
 
-                        // TODO: ADD DELETE FUNCTION TO DELETE THE MESSAGE FROM THE DATABASE
+                        MessageCard messageCardToDelete = selectedMessage;
+
+                        // Get the index of the selected item
+                        int itemAdapterPosition = SelectableItemBinderMessageCard.itemAdapterPosition;
+
+                        Log.d(LOG_TAG, "Deleting message at position: " + itemAdapterPosition);
+
+                        viewModel.deletePlus1Message(messageCardToDelete);
+
+                        refreshUI();
+
+                        Toast.makeText(getContext(), "Message deleted!", Toast.LENGTH_SHORT).show();
 
 
-                    }
-
-                    else {
+                    } else {
 
                         Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
 
                     }
 
-                    Log.d(LOG_TAG, "Delete action clicked!");
 
                     return false;
 
@@ -475,68 +464,91 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
 
     }
 
+
     public void sendMessage() {
 
-        String message = "";
+        String message;
         String mimeType = "text/plain";
 
 
-        message = selectedMessage.getMessage();
+        if (selectedMessage != null) {
+
+            message = selectedMessage.getMessage();
+
+            Intent shareMessageIntent = new Intent(Intent.ACTION_SEND);
+
+            shareMessageIntent.setType(mimeType);
+
+            shareMessageIntent.putExtra(Intent.EXTRA_TEXT, message);
+
+            Intent shareMessageIntentChooser = Intent.createChooser(shareMessageIntent, "Share Message via: ");
 
 
+            getContext().startActivity(shareMessageIntentChooser);
 
-        Intent shareMessageIntent = new Intent(Intent.ACTION_SEND);
+        } else {
 
-        shareMessageIntent.setType(mimeType);
+            Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
 
-        shareMessageIntent.putExtra(Intent.EXTRA_TEXT, message);
-
-        Intent shareMessageIntentChooser = Intent.createChooser(shareMessageIntent, "Share Message via: ");
-
-
-        getContext().startActivity(shareMessageIntentChooser);
+        }
 
 
     }
 
     /**
-     *
      * Show a dialog to the user the indicates what message the card contains when it is long-pressed
-     *
      */
 
     public void showMessagePreview() {
 
-        String message = "";
+        String message;
 
-        message = selectedMessage.getMessage();
+        if (selectedMessage != null) {
 
-        MaterialAlertDialogBuilder alertDialog = new MaterialAlertDialogBuilder(getContext());
+            message = selectedMessage.getMessage();
 
-        alertDialog.setTitle("Your Message:");
+            MaterialAlertDialogBuilder alertDialog = new MaterialAlertDialogBuilder(getContext());
 
-        alertDialog.setMessage(message);
+            alertDialog.setTitle("Your Message:");
 
-        alertDialog.setPositiveButton("Got It", null);
+            alertDialog.setMessage(message);
 
-        alertDialog.setIcon(R.drawable.ic_email_black_24dp);
+            alertDialog.setPositiveButton("Got It", null);
 
-        alertDialog.show();
+            alertDialog.setIcon(R.drawable.ic_email_black_24dp);
+
+            alertDialog.show();
+
+        } else {
+
+            message = null;
+
+            Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    public void initViews() {
+
+        recyclerView = getView().findViewById(R.id.recycler_view_fragment_message_first_additional_card_messages);
+
+        speedDialView = getView().findViewById(R.id.speedDialFabFirstAdditionalCardMessagesFragment);
+
+        topAppToolbar = getActivity().findViewById(R.id.top_app_bar_toolbar_main_activity);
 
     }
 
     /**
-     *
      * Need to set the title of the Top app toolbar in onResume because the ViewPager2 is not controlled/compatible with the Navigation component
-     *
      */
     @Override
     public void onResume() {
         super.onResume();
 
-        topAppToolbar.setTitle("+2 Messages");
+        topAppToolbar.setTitle("+1 Messages");
 
-        viewModel.getPlus2MessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+        viewModel.getPlus1MessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
             @Override
             public void onChanged(ArrayList<MessageCard> messageCards) {
                 listSection.set(messageCards);
@@ -544,6 +556,16 @@ public class ReplyFragmentSecondAdditionalCardMessages extends ReplyBaseFragment
         });
     }
 
+    public void refreshUI() {
 
+        viewModel.getPlus1MessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+            @Override
+            public void onChanged(ArrayList<MessageCard> messageCards) {
+
+                listSection.set(messageCards);
+
+            }
+        });
+    }
 }
 

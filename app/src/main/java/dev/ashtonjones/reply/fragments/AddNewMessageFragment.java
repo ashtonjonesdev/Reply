@@ -6,6 +6,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -21,6 +22,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
+import dev.ashtonjones.reply.datalayer.viewmodel.AddNewMessageViewModel;
+import dev.ashtonjones.reply.datalayer.viewmodel.PersonalMessagesViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 
 /**
@@ -43,6 +46,8 @@ public class AddNewMessageFragment extends Fragment {
 
     private int selectedCategoryOption;
 
+    private AddNewMessageViewModel viewModel;
+
     public AddNewMessageFragment() {
         // Required empty public constructor
     }
@@ -60,6 +65,10 @@ public class AddNewMessageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initViews();
+
+        setUpViewModel();
+
+
 
         saveFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,31 +112,31 @@ public class AddNewMessageFragment extends Fragment {
 
                     case R.id.radioButtonPersonalOption:
 
-                        firebaseRepository.addPersonalMessage(newMessage);
+                        viewModel.addPersonalMessage(newMessage);
 
                         break;
 
                     case R.id.radioButtonSocialOption:
 
-                        firebaseRepository.addSocialMessage(newMessage);
+                        viewModel.addSocialMessage(newMessage);
 
                         break;
 
                     case R.id.radioButtonBusinessOption:
 
-                        firebaseRepository.addBusinessMessage(newMessage);
+                        viewModel.addBusinessMessage(newMessage);
 
                         break;
 
                     case R.id.radioButtonFirstAdditionalOption:
 
-                        firebaseRepository.addPlus1Message(newMessage);
+                        viewModel.addPlus1Message(newMessage);
 
                         break;
 
                     case R.id.radioButtonSecondAdditionalOption:
 
-                        firebaseRepository.addPlus2Message(newMessage);
+                        viewModel.addPlus2Message(newMessage);
 
                         break;
 
@@ -165,6 +174,13 @@ public class AddNewMessageFragment extends Fragment {
         radioGroupMessageCategories = getView().findViewById(R.id.radioGroupMessageCategories);
 
     }
+
+    public void setUpViewModel() {
+
+        viewModel = new ViewModelProvider(this).get(AddNewMessageViewModel.class);
+
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

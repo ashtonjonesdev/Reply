@@ -393,7 +393,7 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
                 // Add card action
                 case R.id.fab_add_action:
 
-                    Toast.makeText(getContext(), "Add action clicked!", Toast.LENGTH_SHORT).show();
+                    Log.d(LOG_TAG, "Add action clicked");
 
                     Navigation.findNavController(getView()).navigate(R.id.action_global_add_new_message_fragment_dest);
 
@@ -402,23 +402,22 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
                 // Edit card action
                 case R.id.fab_replace_action:
 
-                    Toast.makeText(getContext(), "Edit Action clicked!", Toast.LENGTH_SHORT).show();
-
-//                    Navigation.findNavController(speedDialView).navigate(R.id.action_message_fragment_dest_to_edit_card_message_fragment_dest);
-
-                    Log.d(LOG_TAG, "Edit action clicked!");
-
-                    return false;
-
-                // Delete card action
-                case R.id.fab_remove_action:
 
                     if(selectedMessage != null) {
 
-                        Toast.makeText(getContext(), "Delete Action clicked!", Toast.LENGTH_SHORT).show();
+                        int socialMessageFragmentDestID = R.id.reply_fragment_social_messages_dest;
 
-                        // TODO: ADD DELETE FUNCTION TO DELETE THE MESSAGE FROM THE DATABASE
+                        Log.d(LOG_TAG, "Personal Messages Fragment ID: " + socialMessageFragmentDestID);
 
+                        Bundle bundle = new Bundle();
+
+                        bundle.putSerializable("selectedMessageArg", selectedMessage);
+
+                        bundle.putInt("fromDestinationArg", socialMessageFragmentDestID);
+
+                        Navigation.findNavController(getView()).navigate(R.id.action_global_editMessageFragment, bundle);
+
+                        Log.d(LOG_TAG, "Edit action clicked!");
 
                     }
 
@@ -428,7 +427,35 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
                     }
 
+                    return false;
+
+                // Delete card action
+                case R.id.fab_remove_action:
+
                     Log.d(LOG_TAG, "Delete action clicked!");
+
+                    if (selectedMessage != null) {
+
+                        MessageCard messageCardToDelete = selectedMessage;
+
+                        // Get the index of the selected item
+                        int itemAdapterPosition = SelectableItemBinderMessageCard.itemAdapterPosition;
+
+                        Log.d(LOG_TAG, "Deleting message at position: " + itemAdapterPosition);
+
+                        viewModel.deleteSocialMessage(messageCardToDelete);
+
+                        refreshUI();
+
+                        Toast.makeText(getContext(), "Message deleted!", Toast.LENGTH_SHORT).show();
+
+
+                    } else {
+
+                        Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
+
+                    }
+
 
                     return false;
 
@@ -558,6 +585,18 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
             @Override
             public void onChanged(ArrayList<MessageCard> messageCards) {
                 listSection.set(messageCards);
+            }
+        });
+    }
+
+    public void refreshUI() {
+
+        viewModel.getSocialMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+            @Override
+            public void onChanged(ArrayList<MessageCard> messageCards) {
+
+                listSection.set(messageCards);
+
             }
         });
     }

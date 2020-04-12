@@ -39,19 +39,17 @@ import mva2.adapter.util.Mode;
 
 
 /**
- *
  * TODO: Update this class to use Room (see MessageFragmentPersonalMessages Fragment)
- *
+ * <p>
  * The MessageFragment class is a fragment within the Main Activity that shows the user buttons that they can tap to send a predefined message
- *
+ * <p>
  * The Fragment uses a RecyclerView with a Card for each item that displays the CardView title and CardView image, and contains a message to be sent once the card is clicked
- *
+ * <p>
  * The fragment also uses a TabLayout to change the data of the cards based on the selected tab
- *
+ * <p>
  * The tabs represent each "type" of messages, such as "Personal messages" and "Business messages", so on, and reflect the same tabs (types) in the user's My Connect Cards
- *
+ * <p>
  * When a different tab is selected, it updates the cards to reflect the appropriate messages; for example, when the Business tab is selected, it will show the appropriate Business message cards
- *
  */
 public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
 
@@ -80,15 +78,8 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
     private BusinessMessagesViewModel viewModel;
 
 
-
-
-
-
-
     /**
-     *
      * Required empty public constructor
-     *
      */
 
     public ReplyFragmentBusinessMessages() {
@@ -118,7 +109,6 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
 
 
     /**
-     *
      * Had to move all initialization code here (including the calls to setAdapter() and initializeData() to avoid null pointer exceptions
      *
      * @param view
@@ -179,7 +169,7 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
              *
              */
 
-            if(selectedItems.size() > 0) {
+            if (selectedItems.size() > 0) {
 
                 Log.d(LOG_TAG, "Setting selected item to: " + selectedItems.get(0).getMessage());
 
@@ -223,9 +213,6 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
             }
 
 
-
-
-
         });
 
     }
@@ -251,7 +238,6 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
         Toast.makeText(getContext(), "Loading your messages...", Toast.LENGTH_SHORT).show();
 
         selectedMessage = null;
-
 
 
     }
@@ -334,9 +320,6 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
         speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).create());
 
 
-
-
-
         /**
          *
          * Used to decide what to do when the FAB is opened or closed
@@ -383,13 +366,11 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
 
                     Log.d(LOG_TAG, "Send action clicked!");
 
-                    if(selectedMessage != null) {
+                    if (selectedMessage != null) {
 
                         sendMessage();
 
-                    }
-
-                    else {
+                    } else {
 
                         Toast.makeText(getContext(), "No Message Selected", Toast.LENGTH_SHORT).show();
 
@@ -399,13 +380,11 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
                 // Preview message action
                 case R.id.fab_search_action:
 
-                    if(selectedMessage != null) {
+                    if (selectedMessage != null) {
 
                         showMessagePreview();
 
-                    }
-
-                    else {
+                    } else {
 
                         Toast.makeText(getContext(), "No Message Selected", Toast.LENGTH_SHORT).show();
 
@@ -416,7 +395,7 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
                 // Add card action
                 case R.id.fab_add_action:
 
-                    Toast.makeText(getContext(), "Add Action clicked!", Toast.LENGTH_SHORT).show();
+                    Log.d(LOG_TAG, "Add action clicked");
 
                     Navigation.findNavController(getView()).navigate(R.id.action_global_add_new_message_fragment_dest);
 
@@ -425,33 +404,57 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
                 // Edit card action
                 case R.id.fab_replace_action:
 
-                    Toast.makeText(getContext(), "Edit Action clicked!", Toast.LENGTH_SHORT).show();
+                    if (selectedMessage != null) {
 
-//                    Navigation.findNavController(speedDialView).navigate(R.id.action_message_fragment_dest_to_edit_card_message_fragment_dest);
+                        int businessMessageFragmentDestID = R.id.reply_fragment_business_messages_dest;
 
-                    Log.d(LOG_TAG, "Edit action clicked!");
+                        Log.d(LOG_TAG, "Personal Messages Fragment ID: " + businessMessageFragmentDestID);
+
+                        Bundle bundle = new Bundle();
+
+                        bundle.putSerializable("selectedMessageArg", selectedMessage);
+
+                        bundle.putInt("fromDestinationArg", businessMessageFragmentDestID);
+
+                        Navigation.findNavController(getView()).navigate(R.id.action_global_editMessageFragment, bundle);
+
+                        Log.d(LOG_TAG, "Edit action clicked!");
+
+                    } else {
+
+                        Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
+
+                    }
 
                     return false;
 
                 // Delete card action
                 case R.id.fab_remove_action:
 
-                    if(selectedMessage != null) {
+                    Log.d(LOG_TAG, "Delete action clicked!");
 
-                        Toast.makeText(getContext(), "Delete Action clicked!", Toast.LENGTH_SHORT).show();
+                    if (selectedMessage != null) {
 
-                        // TODO: ADD DELETE FUNCTION TO DELETE THE MESSAGE FROM THE DATABASE
+                        MessageCard messageCardToDelete = selectedMessage;
+
+                        // Get the index of the selected item
+                        int itemAdapterPosition = SelectableItemBinderMessageCard.itemAdapterPosition;
+
+                        Log.d(LOG_TAG, "Deleting message at position: " + itemAdapterPosition);
+
+                        viewModel.deleteBusinessMessage(messageCardToDelete);
+
+                        refreshUI();
+
+                        Toast.makeText(getContext(), "Message deleted!", Toast.LENGTH_SHORT).show();
 
 
-                    }
-
-                    else {
+                    } else {
 
                         Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
 
                     }
 
-                    Log.d(LOG_TAG, "Delete action clicked!");
 
                     return false;
 
@@ -485,7 +488,7 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
         String mimeType = "text/plain";
 
 
-        if(selectedMessage != null) {
+        if (selectedMessage != null) {
 
             message = selectedMessage.getMessage();
 
@@ -500,29 +503,24 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
 
             getContext().startActivity(shareMessageIntentChooser);
 
-        }
-
-        else {
+        } else {
 
             Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
 
         }
 
 
-
     }
 
     /**
-     *
      * Show a dialog to the user the indicates what message the card contains when it is long-pressed
-     *
      */
 
     public void showMessagePreview() {
 
         String message;
 
-        if(selectedMessage != null) {
+        if (selectedMessage != null) {
 
             message = selectedMessage.getMessage();
 
@@ -538,9 +536,7 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
 
             alertDialog.show();
 
-        }
-
-        else {
+        } else {
 
             message = null;
 
@@ -551,9 +547,7 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
     }
 
     /**
-     *
      * Need to set the title of the Top app toolbar in onResume because the ViewPager2 is not controlled/compatible with the Navigation component
-     *
      */
     @Override
     public void onResume() {
@@ -569,9 +563,17 @@ public class ReplyFragmentBusinessMessages extends ReplyBaseFragmentViewPager {
         });
     }
 
+    public void refreshUI() {
 
+        viewModel.getBusinessMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+            @Override
+            public void onChanged(ArrayList<MessageCard> messageCards) {
 
+                listSection.set(messageCards);
 
+            }
+        });
+    }
 
 }
 

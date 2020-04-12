@@ -6,8 +6,12 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavBackStackEntry;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +23,16 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
+import dev.ashtonjones.reply.datalayer.viewmodel.AddNewMessageViewModel;
+import dev.ashtonjones.reply.datalayer.viewmodel.EditMessageViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class EditMessageFragment extends Fragment {
+
+    private static final String LOG_TAG = EditMessageFragment.class.getSimpleName();
 
     private TextInputLayout textInputLayoutTitleEditMessage;
     private TextInputLayout textInputLayoutMessageEditMessage;
@@ -37,6 +45,11 @@ public class EditMessageFragment extends Fragment {
     private MessageCard oldMessage;
 
     private MessageCard newMessage;
+
+    private EditMessageViewModel viewModel;
+
+    private int fromDestinationArg;
+
 
     public EditMessageFragment() {
         // Required empty public constructor
@@ -56,17 +69,29 @@ public class EditMessageFragment extends Fragment {
 
         initViews();
 
+        setUpViewModel();
+
         Bundle args = getArguments();
 
-        MessageCard messageCard =(MessageCard) args.get("selectedMessageArg");
+        MessageCard receivedMessage =(MessageCard) args.get("selectedMessageArg");
 
-        if(messageCard != null) {
+        int receivedDestination = args.getInt("fromDestinationArg");
 
-            Toast.makeText(getContext(), "Received selected message: " + messageCard.getMessage(),Toast.LENGTH_SHORT ).show();
+        if(receivedMessage != null) {
 
-            oldMessage = messageCard;
+            Log.d(LOG_TAG, "Received selected message: " + receivedMessage.getMessage());
+
+            oldMessage = receivedMessage;
 
             setSelectedMessageData();
+
+        }
+
+        if(receivedDestination != -1 && receivedDestination != 0) {
+
+            fromDestinationArg = receivedDestination;
+
+            Log.d(LOG_TAG, "Received destination: " + fromDestinationArg);
 
         }
 
@@ -82,7 +107,9 @@ public class EditMessageFragment extends Fragment {
 
                     newMessage = new MessageCard(newMessageTitle, newMessageMessage);
 
-                    editMessageInFirebase(oldMessage, newMessage);
+                    editMessage();
+
+//                    editMessageInFirebase(oldMessage, newMessage);
 
                     Navigation.findNavController(getView()).popBackStack();
 
@@ -104,13 +131,71 @@ public class EditMessageFragment extends Fragment {
 
     }
 
-    private void editMessageInFirebase(MessageCard oldMessage, MessageCard newMessage) {
 
-        FirebaseRepository firebaseRepository = new FirebaseRepository();
+    public void editMessage() {
 
-        firebaseRepository.editMessage(oldMessage, newMessage);
+        switch (fromDestinationArg) {
+
+            case R.id.reply_fragment_personal_messages_dest:
+
+                Log.d(LOG_TAG, "Edit message in Personal Messages");
+
+                viewModel.editPersonalMessage(oldMessage, newMessage);
+
+                break;
+
+            case R.id.reply_fragment_social_messages_dest:
+
+                Log.d(LOG_TAG, "Edit message in Social Messages");
+
+                viewModel.editSocialMessage(oldMessage, newMessage);
+
+                break;
+
+            case R.id.reply_fragment_business_messages_dest:
+
+                Log.d(LOG_TAG, "Edit message in Business Messages");
+
+                viewModel.editBusinessMessage(oldMessage, newMessage);
+
+                break;
+
+            case R.id.reply_fragment_plus_1_messages_dest:
+
+                Log.d(LOG_TAG, "Edit message in Plus 1 Messages");
+
+                viewModel.editPlus1Message(oldMessage, newMessage);
+
+                break;
+
+            case R.id.reply_fragment_plus_2_messages_dest:
+
+                Log.d(LOG_TAG, "Edit message in Plus 2 Messages");
+
+                viewModel.editPlus2Message(oldMessage, newMessage);
+
+                break;
+
+            default:
+
+                Log.d(LOG_TAG, "Didn't match a case");
+
+                break;
+
+
+        }
+
 
     }
+
+
+//    private void editMessageInFirebase(MessageCard oldMessage, MessageCard newMessage) {
+//
+//        FirebaseRepository firebaseRepository = new FirebaseRepository();
+//
+//        firebaseRepository.editPersonalMessage(oldMessage, newMessage);
+//
+//    }
 
     private void setSelectedMessageData() {
 
@@ -136,6 +221,12 @@ public class EditMessageFragment extends Fragment {
 
         saveFABEditMessage = getView().findViewById(R.id.saveCardFABEditMessage);
 
+
+    }
+
+    public void setUpViewModel() {
+
+        viewModel = new ViewModelProvider(this).get(EditMessageViewModel.class);
 
     }
 

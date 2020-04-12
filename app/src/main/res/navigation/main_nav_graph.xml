@@ -49,28 +49,28 @@
         android:label="Add new message"
         tools:layout="@layout/fragment_add_new_message" />
     <fragment
-        android:id="@+id/replyFragmentPersonalMessages"
+        android:id="@+id/reply_fragment_personal_messages_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyFragmentPersonalMessages"
         android:label="ReplyFragmentPersonalMessages"
         tools:layout="@layout/fragment_message_personal_messages" />
     <fragment
-        android:id="@+id/replyFragmentSocialMessages"
+        android:id="@+id/reply_fragment_social_messages_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyFragmentSocialMessages"
         android:label="ReplyFragmentSocialMessages"
         tools:layout="@layout/fragment_message_social_messages" />
     <fragment
-        android:id="@+id/replyFragmentBusinessMessages"
+        android:id="@+id/reply_fragment_business_messages_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyFragmentBusinessMessages"
         android:label="ReplyFragmentBusinessMessages"
         tools:layout="@layout/fragment_message_business_messages" />
     <fragment
-        android:id="@+id/replyFragmentFirstAdditionalCardMessages"
-        android:name="dev.ashtonjones.reply.fragments.ReplyFragmentFirstAdditionalCardMessages"
+        android:id="@+id/reply_fragment_plus_1_messages_dest"
+        android:name="dev.ashtonjones.reply.fragments.ReplyFragmentPlus1Messages"
         android:label="ReplyFragmentFirstAdditionalCardMessages"
         tools:layout="@layout/fragment_message_first_additional_card_messages" />
     <fragment
-        android:id="@+id/replyFragmentSecondAdditionalCardMessages"
-        android:name="dev.ashtonjones.reply.fragments.ReplyFragmentSecondAdditionalCardMessages"
+        android:id="@+id/reply_fragment_plus_2_messages_dest"
+        android:name="dev.ashtonjones.reply.fragments.ReplyFragmentPlus2Messages"
         android:label="ReplyFragmentSecondAdditionalCardMessages"
         tools:layout="@layout/fragment_message_second_additional_card_messages" />
     <action
@@ -92,14 +92,20 @@
             android:defaultValue="@null"
             >
         </argument>
+        <argument
+            android:name="fromDestinationArg"
+            app:argType="integer"
+            android:defaultValue="-1">
+
+        </argument>
     </action>
     <activity
-        android:id="@+id/mainActivity"
+        android:id="@+id/main_activity_dest"
         android:name="dev.ashtonjones.reply.activities.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
     <fragment
-        android:id="@+id/replyBaseFragmentViewPager"
+        android:id="@+id/reply_base_fragment_viewpager_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyBaseFragmentViewPager"
         android:label="ReplyBaseFragmentViewPager"
         tools:layout="@layout/fragment_reply"/>

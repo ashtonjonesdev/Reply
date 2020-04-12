@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDestination;
 import androidx.navigation.NavDirections;
 import androidx.navigation.NavInflater;
 import androidx.navigation.Navigation;
@@ -315,44 +316,28 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                 // Add card action
                 case R.id.fab_add_action:
 
-                    Toast.makeText(getContext(), "Add Action clicked!", Toast.LENGTH_SHORT).show();
+                    Log.d(LOG_TAG, "Add action clicked");
 
                     Navigation.findNavController(getView()).navigate(R.id.action_global_add_new_message_fragment_dest);
-
 
                     return false;
 
                 // Edit card action
                 case R.id.fab_replace_action:
 
-//                    Toast.makeText(getContext(), "Edit Action clicked!", Toast.LENGTH_SHORT).show();
-
-//                    Navigation.findNavController(speedDialView).navigate(R.id.action_message_fragment_dest_to_edit_card_message_fragment_dest);
-
                     if(selectedMessage != null) {
 
+                        int personalMessageFragmentDestID = R.id.reply_fragment_personal_messages_dest;
 
-                        ;
-
-//                        MainNavGraphDirections.ActionGlobalEditMessageFragment actionGlobalEditMessageFragment = MainNavGraphDirections.actionGlobalEditMessageFragment();
-
-//                        actionGlobalEditMessageFragment.setSelectedMessageArg(selectedMessage);
-
-//                        MessageCard messageCard = actionGlobalEditMessageFragment.getSelectedMessageArg();
-
-
-
-//                            Toast.makeText(getContext(), "Selected Message from getSelectedMessageArg: " + messageCard.getMessage(), Toast.LENGTH_SHORT).show();
-
-//                            Navigation.findNavController(getView()).navigate(ReplyFragmentPersonalMessagesDirections.actionGlobalEditMessageFragment().setSelectedMessageArg(selectedMessage));
+                        Log.d(LOG_TAG, "Personal Messages Fragment ID: " + personalMessageFragmentDestID);
 
                         Bundle bundle = new Bundle();
 
                         bundle.putSerializable("selectedMessageArg", selectedMessage);
 
+                        bundle.putInt("fromDestinationArg", personalMessageFragmentDestID);
+
                         Navigation.findNavController(getView()).navigate(R.id.action_global_editMessageFragment, bundle);
-
-
 
                         Log.d(LOG_TAG, "Edit action clicked!");
 
@@ -369,12 +354,9 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                 // Delete card action
                 case R.id.fab_remove_action:
 
+                    Log.d(LOG_TAG, "Delete action clicked!");
 
                     if (selectedMessage != null) {
-
-//                        Toast.makeText(getContext(), "Delete Action clicked!", Toast.LENGTH_SHORT).show();
-
-                        // TODO: ADD DELETE FUNCTION TO DELETE THE MESSAGE FROM THE DATABASE
 
                         MessageCard messageCardToDelete = selectedMessage;
 
@@ -383,9 +365,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
                         Log.d(LOG_TAG, "Deleting message at position: " + itemAdapterPosition);
 
-                        FirebaseRepository firebaseRepository = new FirebaseRepository();
-
-                        firebaseRepository.deletePersonalMessage(messageCardToDelete);
+                        viewModel.deletePersonalMessage(messageCardToDelete);
 
                         refreshUI();
 
@@ -398,9 +378,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
                     }
 
-//                    Navigation.findNavController(speedDialView).navigate(R.id.action_message_fragment_dest_to_delete_card_message_fragment_dest);
-
-                    Log.d(LOG_TAG, "Delete action clicked!");
 
                     return false;
 
@@ -654,19 +631,11 @@ public class ReplyFragmentPersonalMessages extends Fragment {
             @Override
             public void onChanged(ArrayList<MessageCard> messageCards) {
 
-                for (MessageCard messageCard : messageCards) {
-                    Log.d("VIEWMODEL_REACTIVE", "Observed change in data stream: " + messageCard.getTitle() + "|" + messageCard.getMessage());
-                }
-
                 listSection.set(messageCards);
 
             }
         });
-
-
     }
-
-
 }
 
 
