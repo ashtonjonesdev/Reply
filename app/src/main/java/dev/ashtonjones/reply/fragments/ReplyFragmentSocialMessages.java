@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
@@ -66,7 +67,7 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
     private SelectableItemBinderMessageCard selectableItemBinderMessageCard;
 
-    private MessageCard selectedMessage;
+    private MessageCard selectedMessage = null;
 
     private Toolbar topAppToolbar;
 
@@ -132,11 +133,6 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
         setUpRecyclerView();
 
         setUpViewModel();
-
-        // INITIALIZE DATA
-        initPlaceholderData();
-
-        initData();
 
         // SETUP SECTION SELECTION BEHAVIOR
         setUpSectionSelection();
@@ -212,15 +208,6 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
 
         });
-
-    }
-
-    public void initData() {
-
-        Toast.makeText(getContext(), "Loading your messages...", Toast.LENGTH_SHORT).show();
-
-        selectedMessage = null;
-
 
     }
 
@@ -550,22 +537,6 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
     }
 
-    private void initPlaceholderData() {
-
-        placeholderData.add(new MessageCard("Placeholder 1", "Message 1"));
-        placeholderData.add(new MessageCard("Placeholder 2", "Message 2"));
-        placeholderData.add(new MessageCard("Placeholder 3", "Message 3"));
-        placeholderData.add(new MessageCard("Placeholder 4", "Message 4"));
-        placeholderData.add(new MessageCard("Placeholder 5", "Message 5"));
-        placeholderData.add(new MessageCard("Placeholder 6", "Message 6"));
-        placeholderData.add(new MessageCard("Placeholder 7", "Message 7"));
-        placeholderData.add(new MessageCard("Placeholder 8", "Message 8"));
-        placeholderData.add(new MessageCard("Placeholder 9", "Message 9"));
-        placeholderData.add(new MessageCard("Placeholder 10", "Message 10"));
-
-
-    }
-
     /**
      *
      * Need to set the title of the Top app toolbar in onResume because the ViewPager2 is not controlled/compatible with the Navigation component
@@ -577,12 +548,16 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
         topAppToolbar.setTitle("Social Messages");
 
-        viewModel.getSocialMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
-            @Override
-            public void onChanged(ArrayList<MessageCard> messageCards) {
-                listSection.set(messageCards);
-            }
-        });
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+
+            viewModel.getSocialMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+                @Override
+                public void onChanged(ArrayList<MessageCard> messageCards) {
+                    listSection.set(messageCards);
+                }
+            });
+
+        }
     }
 
     @Override
@@ -595,14 +570,18 @@ public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
 
     public void refreshUI() {
 
-        viewModel.getSocialMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
-            @Override
-            public void onChanged(ArrayList<MessageCard> messageCards) {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
 
-                listSection.set(messageCards);
+            viewModel.getSocialMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+                @Override
+                public void onChanged(ArrayList<MessageCard> messageCards) {
 
-            }
-        });
+                    listSection.set(messageCards);
+
+                }
+            });
+
+        }
     }
 }
 

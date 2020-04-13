@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
@@ -35,26 +36,9 @@ import mva2.adapter.MultiViewAdapter;
 import mva2.adapter.util.Mode;
 
 
-/**
- * TODO: Update this class to use Room (see MessageFragmentPersonalMessages Fragment)
- * <p>
- * The MessageFragment class is a fragment within the Main Activity that shows the user buttons that they can tap to send a predefined message
- * <p>
- * The Fragment uses a RecyclerView with a Card for each item that displays the CardView title and CardView image, and contains a message to be sent once the card is clicked
- * <p>
- * The fragment also uses a TabLayout to change the data of the cards based on the selected tab
- * <p>
- * The tabs represent each "type" of messages, such as "Personal messages" and "Business messages", so on, and reflect the same tabs (types) in the user's My Connect Cards
- * <p>
- * When a different tab is selected, it updates the cards to reflect the appropriate messages; for example, when the Business tab is selected, it will show the appropriate Business message cards
- */
 public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
 
     private static final String LOG_TAG = ReplyFragmentPlus1Messages.class.getSimpleName();
-
-
-    /// References for member variables.
-
 
     private RecyclerView recyclerView;
 
@@ -66,11 +50,9 @@ public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
 
     private SelectableItemBinderMessageCard selectableItemBinderMessageCard;
 
-    private MessageCard selectedMessage;
+    private MessageCard selectedMessage = null;
 
     private Toolbar topAppToolbar;
-
-    private ArrayList<MessageCard> placeholderData = new ArrayList<>();
 
     private Plus1MessagesViewModel viewModel;
 
@@ -127,11 +109,6 @@ public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
 
         // SETUP VIEWMODEL
         setUpViewModel();
-
-        // INITIALIZE DATA
-        initPlaceholderData();
-
-        initData();
 
         // SETUP SECTION SELECTION BEHAVIOR
         setUpSectionSelection();
@@ -206,29 +183,6 @@ public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
 
     }
 
-    private void initPlaceholderData() {
-
-        placeholderData.add(new MessageCard("Placeholder 1", "Message 1"));
-        placeholderData.add(new MessageCard("Placeholder 2", "Message 2"));
-        placeholderData.add(new MessageCard("Placeholder 3", "Message 3"));
-        placeholderData.add(new MessageCard("Placeholder 4", "Message 4"));
-        placeholderData.add(new MessageCard("Placeholder 5", "Message 5"));
-        placeholderData.add(new MessageCard("Placeholder 6", "Message 6"));
-        placeholderData.add(new MessageCard("Placeholder 7", "Message 7"));
-        placeholderData.add(new MessageCard("Placeholder 8", "Message 8"));
-        placeholderData.add(new MessageCard("Placeholder 9", "Message 9"));
-        placeholderData.add(new MessageCard("Placeholder 10", "Message 10"));
-
-
-    }
-
-    public void initData() {
-
-        Toast.makeText(getContext(), "Loading your messages...", Toast.LENGTH_SHORT).show();
-
-        selectedMessage = null;
-
-    }
 
     private void setUpViewModel() {
 
@@ -548,12 +502,16 @@ public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
 
         topAppToolbar.setTitle("+1 Messages");
 
-        viewModel.getPlus1MessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
-            @Override
-            public void onChanged(ArrayList<MessageCard> messageCards) {
-                listSection.set(messageCards);
-            }
-        });
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+
+            viewModel.getPlus1MessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+                @Override
+                public void onChanged(ArrayList<MessageCard> messageCards) {
+                    listSection.set(messageCards);
+                }
+            });
+
+        }
     }
 
     @Override
@@ -566,14 +524,18 @@ public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
 
     public void refreshUI() {
 
-        viewModel.getPlus1MessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
-            @Override
-            public void onChanged(ArrayList<MessageCard> messageCards) {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
 
-                listSection.set(messageCards);
+            viewModel.getPlus1MessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+                @Override
+                public void onChanged(ArrayList<MessageCard> messageCards) {
 
-            }
-        });
+                    listSection.set(messageCards);
+
+                }
+            });
+
+        }
     }
 }
 

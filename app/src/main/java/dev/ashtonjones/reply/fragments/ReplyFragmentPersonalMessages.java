@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,13 +79,11 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
     private SpeedDialView speedDialView;
 
-    private ArrayList<MessageCard> placeholderData = new ArrayList<>();
-
     private ListSection<MessageCard> listSection;
 
     private SelectableItemBinderMessageCard selectableItemBinderMessageCard;
 
-    private MessageCard selectedMessage;
+    private MessageCard selectedMessage = null;
 
     // TOP APP BAR
     private Toolbar topAppToolbar;
@@ -149,11 +148,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
         setUpViewModel();
 
-        // INITIALIZE DATA
-        initPlaceholderData();
-
-        initData();
-
         // SETUP SECTION SELECTION BEHAVIOR
         setUpSectionSelection();
 
@@ -168,18 +162,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
         viewModel = new ViewModelProvider(this).get(PersonalMessagesViewModel.class);
 
     }
-
-
-    public void initData() {
-
-        Toast.makeText(getContext(), "Loading your messages...", Toast.LENGTH_SHORT).show();
-
-        // Set the selected Message to null
-        selectedMessage = null;
-
-
-    }
-
 
     public void initViews() {
 
@@ -372,22 +354,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                     return false;
             }
         });
-
-    }
-
-    public void initPlaceholderData() {
-
-        placeholderData.add(new MessageCard("Placeholder 1", "Message 1"));
-        placeholderData.add(new MessageCard("Placeholder 2", "Message 2"));
-        placeholderData.add(new MessageCard("Placeholder 3", "Message 3"));
-        placeholderData.add(new MessageCard("Placeholder 4", "Message 4"));
-        placeholderData.add(new MessageCard("Placeholder 5", "Message 5"));
-        placeholderData.add(new MessageCard("Placeholder 6", "Message 6"));
-        placeholderData.add(new MessageCard("Placeholder 7", "Message 7"));
-        placeholderData.add(new MessageCard("Placeholder 8", "Message 8"));
-        placeholderData.add(new MessageCard("Placeholder 9", "Message 9"));
-        placeholderData.add(new MessageCard("Placeholder 10", "Message 10"));
-
 
     }
 
@@ -593,7 +559,9 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
         } else {
 
-            Navigation.findNavController(getView()).navigate(R.id.action_global_sign_in_nav_graph);
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+
+            navController.navigate(R.id.action_global_sign_in_nav_graph);
 
         }
 
@@ -609,14 +577,18 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
     public void refreshUI() {
 
-        viewModel.getPersonalMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
-            @Override
-            public void onChanged(ArrayList<MessageCard> messageCards) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
-                listSection.set(messageCards);
+            viewModel.getPersonalMessagesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageCard>>() {
+                @Override
+                public void onChanged(ArrayList<MessageCard> messageCards) {
 
-            }
-        });
+                    listSection.set(messageCards);
+
+                }
+            });
+
+        }
     }
 }
 

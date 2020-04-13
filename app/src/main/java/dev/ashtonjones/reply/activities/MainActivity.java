@@ -1,39 +1,26 @@
 package dev.ashtonjones.reply.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import dev.ashtonjones.reply.R;
-import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
-import dev.ashtonjones.reply.datamodels.MessageCard;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,51 +46,6 @@ public class MainActivity extends AppCompatActivity {
         initUIComponentsWithNavigation();
 
         showOrHideToolbar();
-
-        // TestFirebase connection
-        testFirebaseConnection();
-
-
-
-
-    }
-
-    private void testFirebaseConnection() {
-
-        Log.d("FIREBASE MESSAGE DATA", "Getting Firebase data...");
-
-        // Get instance of the database
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-
-        // Get all documents in the messages collection
-        firebaseFirestore.collection("messages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-                List<DocumentSnapshot> messagesDocuments = queryDocumentSnapshots.getDocuments();
-
-                for(DocumentSnapshot documentSnapshot: messagesDocuments) {
-
-                    Log.d("FIREBASE MESSAGE DATA", documentSnapshot.getId() + "=> " + documentSnapshot.getData().toString());
-
-
-
-                }
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("FIREBASE MESSAGE DATA", "Failed to retrieve data with exception: " + e.getLocalizedMessage());
-            }
-        });
-
-//        FirebaseRepository firebaseRepository = new FirebaseRepository();
-//
-//        ArrayList<MessageCard> messagesFromFirebase = firebaseRepository.getMessages();
-//
-//        Log.d("READ FIREBASE DATA", messagesFromFirebase.toString());
-
 
 
     }

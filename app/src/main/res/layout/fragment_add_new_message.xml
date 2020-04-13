@@ -46,7 +46,7 @@
             android:drawableLeft="@drawable/ic_collections_black_24dp"
             android:drawablePadding="12dp"
             android:imeOptions="actionNext"
-            android:inputType="textLongMessage"
+            android:inputType="textShortMessage|textCapWords"
             android:selectAllOnFocus="true"
             android:text="" />
 
@@ -77,8 +77,8 @@
             android:drawableStart="@drawable/ic_email_black_24dp"
             android:drawableLeft="@drawable/ic_email_black_24dp"
             android:drawablePadding="12dp"
+            android:inputType="textImeMultiLine|textCapSentences"
             android:imeOptions="actionDone"
-            android:inputType="textLongMessage"
             android:selectAllOnFocus="true"
             android:text="" />
 
@@ -87,8 +87,13 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/chooseCategoryTextView"
         style="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="Choose a category:"
         android:textAlignment="center"
@@ -96,23 +101,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutMessageAddNewMessage"
-        android:layout_marginTop="64dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-         />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <RadioGroup
         android:id="@+id/radioGroupMessageCategories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/saveCardFABAddNewMessage"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent">
 
         <RadioButton
@@ -181,8 +178,7 @@
         android:src="@drawable/ic_save_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

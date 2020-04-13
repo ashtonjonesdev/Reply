@@ -27,10 +27,14 @@
     <action
         android:id="@+id/action_global_reply_fragment_dest"
         app:destination="@id/reply_fragment_dest"
+        app:enterAnim="@anim/nav_default_pop_enter_anim"
+        app:exitAnim="@anim/nav_default_pop_exit_anim"
         app:popUpTo="@id/reply_fragment_dest" />
     <action
         android:id="@+id/action_global_sign_in_nav_graph"
-        app:destination="@id/sign_in_nav_graph" />
+        app:destination="@id/sign_in_nav_graph"
+        app:popUpTo="@id/sign_in_nav_graph"
+        app:popUpToInclusive="false" />
     <navigation
         android:id="@+id/welcome_nav_graph"
         app:startDestination="@id/welcome_fragment_dest">
@@ -42,7 +46,9 @@
     </navigation>
     <action
         android:id="@+id/action_global_welcome_nav_graph"
-        app:destination="@id/welcome_nav_graph" />
+        app:destination="@id/welcome_nav_graph"
+        app:enterAnim="@anim/sd_fade_and_translate_in"
+        app:exitAnim="@anim/sd_fade_and_translate_out" />
     <fragment
         android:id="@+id/add_new_message_fragment_dest"
         android:name="dev.ashtonjones.reply.fragments.AddNewMessageFragment"
@@ -87,15 +93,13 @@
         app:destination="@id/edit_message_fragment_dest">
         <argument
             android:name="selectedMessageArg"
-            app:argType="dev.ashtonjones.reply.datamodels.MessageCard"
-            app:nullable="true"
             android:defaultValue="@null"
-            >
-        </argument>
+            app:argType="dev.ashtonjones.reply.datamodels.MessageCard"
+            app:nullable="true"></argument>
         <argument
             android:name="fromDestinationArg"
-            app:argType="integer"
-            android:defaultValue="-1">
+            android:defaultValue="-1"
+            app:argType="integer">
 
         </argument>
     </action>

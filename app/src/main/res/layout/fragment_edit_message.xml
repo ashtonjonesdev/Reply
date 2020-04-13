@@ -46,7 +46,7 @@
             android:drawableLeft="@drawable/ic_collections_black_24dp"
             android:drawableStart="@drawable/ic_collections_black_24dp"
             android:drawablePadding="12dp"
-            android:inputType="textLongMessage"
+            android:inputType="textShortMessage"
             android:imeOptions="actionNext"
             />
 
@@ -76,7 +76,7 @@
             android:drawableStart="@drawable/ic_email_black_24dp"
             android:drawableLeft="@drawable/ic_email_black_24dp"
             android:drawablePadding="12dp"
-            android:inputType="textLongMessage"
+            android:inputType="textImeMultiLine|textCapSentences"
             android:imeOptions="actionDone"
             />
 
@@ -92,8 +92,7 @@
         android:src="@drawable/ic_save_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
