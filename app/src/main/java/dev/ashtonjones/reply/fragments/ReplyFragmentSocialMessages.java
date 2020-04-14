@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -50,7 +51,7 @@ import mva2.adapter.util.Mode;
  * When a different tab is selected, it updates the cards to reflect the appropriate messages; for example, when the Business tab is selected, it will show the appropriate Business message cards
  *
  */
-public class ReplyFragmentSocialMessages extends ReplyBaseFragmentViewPager {
+public class ReplyFragmentSocialMessages extends Fragment {
 
     /// References for member variables.
 

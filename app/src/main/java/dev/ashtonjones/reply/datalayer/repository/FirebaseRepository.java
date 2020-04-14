@@ -56,14 +56,9 @@ public class FirebaseRepository implements RepositoryInterface {
 
                         User user = documentSnapshot.toObject(User.class);
 
-                        // List that will hold the messages
-                        ArrayList<MessageCard> messages = new ArrayList<>();
+                        Log.d(LOG_TAG, "Personal Messages: " + user.getPersonalMessages().toString());
 
-                        messages = user.getPersonalMessages();
-
-                        Log.d(LOG_TAG, "Personal Messages: " + messages.toString());
-
-                        personalMessagesLiveData.postValue(messages);
+                        personalMessagesLiveData.postValue(user.getPersonalMessages());
 
                     }
 
@@ -100,14 +95,9 @@ public class FirebaseRepository implements RepositoryInterface {
 
                         User user = documentSnapshot.toObject(User.class);
 
-                        // List that will hold the messages
-                        ArrayList<MessageCard> messages = new ArrayList<>();
+                        Log.d(LOG_TAG, "Social Messages: " + user.getSocialMessages().toString());
 
-                        messages = user.getSocialMessages();
-
-                        Log.d(LOG_TAG, "Social Messages: " + messages.toString());
-
-                        socialMessagesLiveData.postValue(messages);
+                        socialMessagesLiveData.postValue(user.getSocialMessages());
 
                     }
 
@@ -145,14 +135,9 @@ public class FirebaseRepository implements RepositoryInterface {
 
                         User user = documentSnapshot.toObject(User.class);
 
-                        // List that will hold the messages
-                        ArrayList<MessageCard> messages = new ArrayList<>();
+                        Log.d(LOG_TAG, "Business Messages: " + user.getBusinessMessages().toString());
 
-                        messages = user.getBusinessMessages();
-
-                        Log.d(LOG_TAG, "Business Messages: " + messages.toString());
-
-                        businessMessagesLiveData.postValue(messages);
+                        businessMessagesLiveData.postValue(user.getBusinessMessages());
 
                     }
 
@@ -190,14 +175,9 @@ public class FirebaseRepository implements RepositoryInterface {
 
                         User user = documentSnapshot.toObject(User.class);
 
-                        // List that will hold the messages
-                        ArrayList<MessageCard> messages = new ArrayList<>();
+                        Log.d(LOG_TAG, "Plus 1 Messages: " + user.getPlus1Messages().toString());
 
-                        messages = user.getPlus1Messages();
-
-                        Log.d(LOG_TAG, "Plus 1 Messages: " + messages.toString());
-
-                        plus1MessagesLiveData.postValue(messages);
+                        plus1MessagesLiveData.postValue(user.getPlus1Messages());
 
                     }
 
@@ -233,14 +213,9 @@ public class FirebaseRepository implements RepositoryInterface {
 
                         User user = documentSnapshot.toObject(User.class);
 
-                        // List that will hold the messages
-                        ArrayList<MessageCard> messages = new ArrayList<>();
+                        Log.d(LOG_TAG, "Plus 2 Messages: " + user.getPlus2Messages().toString());
 
-                        messages = user.getPlus2Messages();
-
-                        Log.d(LOG_TAG, "Plus 2 Messages: " + messages.toString());
-
-                        plus2MessagesLiveData.postValue(messages);
+                        plus2MessagesLiveData.postValue(user.getPlus2Messages());
 
                     }
 

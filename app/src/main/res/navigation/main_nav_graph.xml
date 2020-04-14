@@ -108,11 +108,6 @@
         android:name="dev.ashtonjones.reply.activities.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
-    <fragment
-        android:id="@+id/reply_base_fragment_viewpager_dest"
-        android:name="dev.ashtonjones.reply.fragments.ReplyBaseFragmentViewPager"
-        android:label="ReplyBaseFragmentViewPager"
-        tools:layout="@layout/fragment_reply"/>
 
 
 </navigation>

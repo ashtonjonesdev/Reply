@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -36,7 +37,7 @@ import mva2.adapter.MultiViewAdapter;
 import mva2.adapter.util.Mode;
 
 
-public class ReplyFragmentPlus1Messages extends ReplyBaseFragmentViewPager {
+public class ReplyFragmentPlus1Messages extends Fragment {
 
     private static final String LOG_TAG = ReplyFragmentPlus1Messages.class.getSimpleName();
 
