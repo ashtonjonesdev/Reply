@@ -5,6 +5,7 @@
     android:layout_height="150dp"
     android:layout_margin="24dp"
     android:id="@+id/message_fragment_card_view"
+    style="@style/Widget.MaterialComponents.CardView"
     app:cardElevation="8dp">
 
     <LinearLayout
@@ -14,15 +15,16 @@
         android:gravity="center"
         android:padding="8dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/message_fragment_card_view_title_text_view"
             android:layout_width="wrap_content"
-            android:textColor="@color/colorOnSurface"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:padding="8dp"
             android:text="Hello"
             android:textAlignment="center"
-            android:padding="8dp"/>
+            android:textColor="@color/colorOnSurface"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -54,7 +54,7 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     // Navigation component
-    def nav_version = '2.2.0'
+    def nav_version = '2.2.1'
 
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
@@ -75,7 +75,7 @@ dependencies {
     // Third Party Dependencies
     implementation "com.leinardi.android:speed-dial:3.1.1"
     implementation 'dev.ahamed.mva2:adapter:2.0.0'
-    implementation 'com.github.jrvansuita:MaterialAbout:+'
+    implementation 'com.github.jrvansuita:MaterialAbout:0.2.3'
 
 
     // Had to add this to avoid weird bug

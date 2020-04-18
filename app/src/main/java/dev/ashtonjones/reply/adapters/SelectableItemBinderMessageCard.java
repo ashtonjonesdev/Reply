@@ -2,15 +2,14 @@ package dev.ashtonjones.reply.adapters;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textview.MaterialTextView;
 
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.datamodels.MessageCard;
-
 import mva2.adapter.ItemBinder;
 import mva2.adapter.ItemViewHolder;
 
@@ -38,7 +37,9 @@ public class SelectableItemBinderMessageCard extends ItemBinder<MessageCard, Sel
 
         holder.materialCardView.setCardBackgroundColor(bgColor);
 
-        holder.materialCardView.setCardElevation(holder.isItemSelected() ? 12 : 4);
+        holder.materialCardView.setCardElevation(holder.isItemSelected() ? 16 : 8);
+
+
 
         // Set the card title
         holder.titleTextView.setText(item.getTitle());
@@ -61,26 +62,12 @@ public class SelectableItemBinderMessageCard extends ItemBinder<MessageCard, Sel
 
         // Reference variables for the ViewHolder that represent the Views in the cards and the String for the message
 
-        private TextView titleTextView;
+        private MaterialTextView titleTextView;
 
         private String cardMessage;
 
         private MaterialCardView materialCardView;
 
-//        /**
-//         *
-//         * Enable drag to reorder cards
-//         *
-//         * Does not persist
-//         *
-//         * @return
-//         */
-//        @Override public int getDragDirections() {
-//            return ItemTouchHelper.LEFT
-//                    | ItemTouchHelper.UP
-//                    | ItemTouchHelper.RIGHT
-//                    | ItemTouchHelper.DOWN;
-//        }
 
         public ViewHolder(View itemView) {
 
@@ -98,15 +85,6 @@ public class SelectableItemBinderMessageCard extends ItemBinder<MessageCard, Sel
                 toggleItemSelection();
 
             });
-
-
-
-//
-//            // Enable drag and drop on long press
-//            itemView.setOnLongClickListener(v -> {
-//                startDrag();
-//                return true;
-//            });
 
         }
 
