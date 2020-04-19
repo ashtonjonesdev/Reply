@@ -48,7 +48,8 @@
         android:id="@+id/action_global_welcome_nav_graph"
         app:destination="@id/welcome_nav_graph"
         app:enterAnim="@anim/sd_fade_and_translate_in"
-        app:exitAnim="@anim/sd_fade_and_translate_out" />
+        app:exitAnim="@anim/sd_fade_and_translate_out"
+        app:popUpTo="@id/reply_fragment_dest" />
     <fragment
         android:id="@+id/add_new_message_fragment_dest"
         android:name="dev.ashtonjones.reply.fragments.AddNewMessageFragment"
