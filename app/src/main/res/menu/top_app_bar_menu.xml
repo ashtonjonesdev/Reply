@@ -6,7 +6,7 @@
         android:id="@+id/welcome_nav_graph"
         android:title="Introduction"
         app:showAsAction="never"
-        android:orderInCategory="10"/>
+        android:orderInCategory="80"/>
 
     <item
         android:id="@+id/about_developer_fragment_dest"

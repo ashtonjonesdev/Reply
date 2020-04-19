@@ -1,18 +1,16 @@
 package dev.ashtonjones.reply.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.vansuita.materialabout.builder.AboutBuilder;
 import com.vansuita.materialabout.views.AboutView;
@@ -75,7 +73,7 @@ public class AboutDeveloperFragment extends Fragment {
 
 
         AboutView view = AboutBuilder.with(getContext())
-                .setAppIcon(R.drawable.ic_forum_black_24dp)
+                .setAppIcon(R.mipmap.ic_launcher)
                 .setPhoto(R.drawable.profile_picture_large)
                 .setCover(R.drawable.associate_android_developer_badge_small)
                 .setName("Ashton Jones")
@@ -87,12 +85,11 @@ public class AboutDeveloperFragment extends Fragment {
                 .setAppIcon(R.mipmap.ic_launcher)
                 .setAppName(R.string.app_name)
                 .setLinksColumnsCount(5)
-                .addWebsiteLink("https://ashtonjones.dev/")
+                .addWebsiteLink("https://www.ashtonjones.dev/")
                 .addEmailLink("ashtonjonesdev@gmail.com")
-                .addLinkedInLink("https://www.linkedin.com/in/tjgrapes/")
-                .addGooglePlayStoreLink("https://play.google.com/store/apps/developer?id=Ashton+Jones")
-                .addGitHubLink("https://github.com/ashtonjonesdev")
-
+                .addLinkedInLink("tjgrapes")
+                .addGooglePlayStoreLink("8786079395794167171")
+                .addGitHubLink("ashtonjonesdev")
                 .addFiveStarsAction()
                 .setVersionNameAsAppSubTitle()
                 .addShareAction(R.string.app_name)
