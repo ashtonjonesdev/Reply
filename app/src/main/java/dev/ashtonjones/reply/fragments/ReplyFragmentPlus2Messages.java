@@ -18,7 +18,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +28,7 @@ import java.util.ArrayList;
 
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.adapters.SelectableItemBinderMessageCard;
+import dev.ashtonjones.reply.databinding.FragmentReplyPlus2MessagesBinding;
 import dev.ashtonjones.reply.datalayer.viewmodel.Plus2MessagesViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 import mva2.adapter.ListSection;
@@ -51,19 +51,14 @@ public class ReplyFragmentPlus2Messages extends Fragment {
 
     private static final String LOG_TAG = ReplyFragmentPlus2Messages.class.getSimpleName();
 
+    private FragmentReplyPlus2MessagesBinding binding;
+
 
     /// References for member variables.
-
-
-    private RecyclerView recyclerView;
-
-    private SpeedDialView speedDialView;
 
     private MultiViewAdapter multiViewAdapter;
 
     private ListSection<MessageCard> listSection;
-
-    private SelectableItemBinderMessageCard selectableItemBinderMessageCard;
 
     private MessageCard selectedMessage = null;
 
@@ -95,10 +90,10 @@ public class ReplyFragmentPlus2Messages extends Fragment {
 
         Log.d(LOG_TAG, "onCreateView");
 
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_message_plus_2_messages, container, false);
+        binding = FragmentReplyPlus2MessagesBinding.inflate(getLayoutInflater(), container, false);
 
-        return view;
+        return binding.getRoot();
+
     }
 
     /**
@@ -133,10 +128,6 @@ public class ReplyFragmentPlus2Messages extends Fragment {
     }
 
     public void initViews() {
-
-        recyclerView = getView().findViewById(R.id.recycler_view_fragment_message_second_additional_card_messages);
-
-        speedDialView = getView().findViewById(R.id.speedDialFabSecondAdditionalCardMessagesFragment);
 
         topAppToolbar = getActivity().findViewById(R.id.top_app_bar_toolbar_main_activity);
 
@@ -226,13 +217,13 @@ public class ReplyFragmentPlus2Messages extends Fragment {
         gridLayoutManager.setSpanCount(2);
 
         // Set the layout manager for the RecyclerView
-        recyclerView.setLayoutManager(gridLayoutManager);
+        binding.recyclerViewFragmentMessageSecondAdditionalCardMessages.setLayoutManager(gridLayoutManager);
 
         // Connect the MultiViewAdapter to the RecyclerView
-        recyclerView.setAdapter(multiViewAdapter);
+        binding.recyclerViewFragmentMessageSecondAdditionalCardMessages.setAdapter(multiViewAdapter);
 
         // Attach ItemToucHelper to RecyclerView to enable drag and drop functionality
-        multiViewAdapter.getItemTouchHelper().attachToRecyclerView(recyclerView);
+        multiViewAdapter.getItemTouchHelper().attachToRecyclerView(binding.recyclerViewFragmentMessageSecondAdditionalCardMessages);
 
     }
 
@@ -245,7 +236,7 @@ public class ReplyFragmentPlus2Messages extends Fragment {
         listSection = new ListSection<>();
 
         // Initialize the Binders
-        selectableItemBinderMessageCard = new SelectableItemBinderMessageCard();
+        SelectableItemBinderMessageCard selectableItemBinderMessageCard = new SelectableItemBinderMessageCard();
 
         // Set the span count on the Adapter (same as the LayoutManager span count)
         multiViewAdapter.setSpanCount(2);
@@ -259,7 +250,7 @@ public class ReplyFragmentPlus2Messages extends Fragment {
         listSection.setSelectionMode(Mode.SINGLE);
 
         // Connect the MultiViewAdapter to the RecyclerView
-        recyclerView.setAdapter(multiViewAdapter);
+        binding.recyclerViewFragmentMessageSecondAdditionalCardMessages.setAdapter(multiViewAdapter);
 
     }
 
@@ -282,15 +273,15 @@ public class ReplyFragmentPlus2Messages extends Fragment {
          *
          */
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabSecondAdditionalCardMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabSecondAdditionalCardMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabSecondAdditionalCardMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabSecondAdditionalCardMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabSecondAdditionalCardMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
 
         /**
@@ -300,7 +291,7 @@ public class ReplyFragmentPlus2Messages extends Fragment {
          * The "Main Action" is the action of the FAB when it is opened (the FAB itself becomes the Main Action; in this case, it is used as a close action to close the FAB)
          *
          */
-        speedDialView.setOnChangeListener(new SpeedDialView.OnChangeListener() {
+        binding.speedDialFabSecondAdditionalCardMessagesFragment.setOnChangeListener(new SpeedDialView.OnChangeListener() {
             @Override
             // Main Action is the initial Fab clicked after it is open (In this case, it is the close icon)
             public boolean onMainActionSelected() {
@@ -329,7 +320,7 @@ public class ReplyFragmentPlus2Messages extends Fragment {
          *
          */
 
-        speedDialView.setOnActionSelectedListener(actionItem -> {
+        binding.speedDialFabSecondAdditionalCardMessagesFragment.setOnActionSelectedListener(actionItem -> {
             switch (actionItem.getId()) {
 
                 // Send message action

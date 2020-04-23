@@ -59,31 +59,31 @@
         android:id="@+id/reply_fragment_personal_messages_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyFragmentPersonalMessages"
         android:label="ReplyFragmentPersonalMessages"
-        tools:layout="@layout/fragment_message_personal_messages" />
+        tools:layout="@layout/fragment_reply_personal_messages" />
     <fragment
         android:id="@+id/reply_fragment_social_messages_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyFragmentSocialMessages"
         android:label="ReplyFragmentSocialMessages"
-        tools:layout="@layout/fragment_message_social_messages" />
+        tools:layout="@layout/fragment_reply_social_messages" />
     <fragment
         android:id="@+id/reply_fragment_business_messages_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyFragmentBusinessMessages"
         android:label="ReplyFragmentBusinessMessages"
-        tools:layout="@layout/fragment_message_business_messages" />
+        tools:layout="@layout/fragment_reply_business_messages" />
     <fragment
         android:id="@+id/reply_fragment_plus_1_messages_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyFragmentPlus1Messages"
         android:label="ReplyFragmentFirstAdditionalCardMessages"
-        tools:layout="@layout/fragment_message_plus_1_messages" />
+        tools:layout="@layout/fragment_reply_plus_1_messages" />
     <fragment
         android:id="@+id/reply_fragment_plus_2_messages_dest"
         android:name="dev.ashtonjones.reply.fragments.ReplyFragmentPlus2Messages"
         android:label="ReplyFragmentSecondAdditionalCardMessages"
-        tools:layout="@layout/fragment_message_plus_2_messages" />
+        tools:layout="@layout/fragment_reply_plus_2_messages" />
     <action
         android:id="@+id/action_global_add_new_message_fragment_dest"
         app:destination="@id/add_new_message_fragment_dest"
-        app:popUpTo="@layout/fragment_message_personal_messages" />
+        app:popUpTo="@layout/fragment_reply_personal_messages" />
     <fragment
         android:id="@+id/edit_message_fragment_dest"
         android:name="dev.ashtonjones.reply.fragments.EditMessageFragment"
@@ -109,6 +109,16 @@
         android:name="dev.ashtonjones.reply.activities.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/settings_fragment_dest"
+        android:name="dev.ashtonjones.reply.fragments.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/set_timer_fragment_dest"
+        android:name="dev.ashtonjones.reply.fragments.SetTimerFragment"
+        android:label="Set Timer"
+        tools:layout="@layout/fragment_set_timer" />
 
 
 </navigation>

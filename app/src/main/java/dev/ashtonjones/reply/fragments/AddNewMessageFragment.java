@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -15,12 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
 import dev.ashtonjones.reply.R;
-import dev.ashtonjones.reply.datalayer.repository.FirebaseRepository;
+import dev.ashtonjones.reply.databinding.FragmentAddNewMessageBinding;
 import dev.ashtonjones.reply.datalayer.viewmodel.AddNewMessageViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 
@@ -31,16 +26,7 @@ public class AddNewMessageFragment extends Fragment {
 
     private static final String LOG_TAG = AddNewMessageFragment.class.getSimpleName();
 
-
-    private TextInputLayout textInputLayoutTitleAddNewMessage;
-    private TextInputLayout textInputLayoutMessageAddNewMessage;
-
-    private TextInputEditText textInputEditTextTitleAddNewMessage;
-    private TextInputEditText textInputEditTextMessageAddNewMessage;
-
-    private FloatingActionButton saveFAB;
-
-    private RadioGroup radioGroupMessageCategories;
+    private FragmentAddNewMessageBinding binding;
 
     private int selectedCategoryOption;
 
@@ -54,21 +40,20 @@ public class AddNewMessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_new_message, container, false);
+
+        binding = FragmentAddNewMessageBinding.inflate(getLayoutInflater(), container, false);
+
+        return binding.getRoot();
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initViews();
-
         setUpViewModel();
 
-
-
-        saveFAB.setOnClickListener(new View.OnClickListener() {
+        binding.saveCardFABAddNewMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveNewMessage();
@@ -81,21 +66,19 @@ public class AddNewMessageFragment extends Fragment {
     private void saveNewMessage() {
 
         // Check if fields are null
-        if (textInputEditTextTitleAddNewMessage == null || textInputEditTextTitleAddNewMessage.length() == 0 || textInputEditTextMessageAddNewMessage == null || textInputEditTextMessageAddNewMessage.length() == 0) {
+        if (binding.textInputEditTextTitleAddNewMessage.getText() == null || binding.textInputEditTextTitleAddNewMessage.length() == 0 || binding.textInputEditTextMessageAddNewMessage.getText() == null || binding.textInputEditTextMessageAddNewMessage.length() == 0) {
 
             Toast.makeText(getContext(), "Please enter a title and a message", Toast.LENGTH_SHORT).show();
 
         } else {
 
-            String newTitleString = textInputEditTextTitleAddNewMessage.getText().toString();
+            String newTitleString = binding.textInputEditTextTitleAddNewMessage.getText().toString();
 
-            String newMessageString = textInputEditTextMessageAddNewMessage.getText().toString();
+            String newMessageString = binding.textInputEditTextMessageAddNewMessage.getText().toString();
 
             MessageCard newMessage = new MessageCard(newTitleString, newMessageString);
 
-            selectedCategoryOption = radioGroupMessageCategories.getCheckedRadioButtonId();
-
-            FirebaseRepository firebaseRepository = new FirebaseRepository();
+            selectedCategoryOption = binding.radioGroupMessageCategories.getCheckedRadioButtonId();
 
             if (selectedCategoryOption == -1) {
 
@@ -157,21 +140,6 @@ public class AddNewMessageFragment extends Fragment {
 
     }
 
-    private void initViews() {
-
-        saveFAB = getView().findViewById(R.id.saveCardFABAddNewMessage);
-
-        textInputLayoutMessageAddNewMessage = getView().findViewById(R.id.textInputLayoutMessageAddNewMessage);
-
-        textInputLayoutTitleAddNewMessage = getView().findViewById(R.id.textInputLayoutTitleAddNewMessage);
-
-        textInputEditTextMessageAddNewMessage = getView().findViewById(R.id.textInputEditTextMessageAddNewMessage);
-
-        textInputEditTextTitleAddNewMessage = getView().findViewById(R.id.textInputEditTextTitleAddNewMessage);
-
-        radioGroupMessageCategories = getView().findViewById(R.id.radioGroupMessageCategories);
-
-    }
 
     public void setUpViewModel() {
 

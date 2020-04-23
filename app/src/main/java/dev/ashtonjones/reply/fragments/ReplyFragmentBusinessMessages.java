@@ -18,7 +18,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +28,7 @@ import java.util.ArrayList;
 
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.adapters.SelectableItemBinderMessageCard;
+import dev.ashtonjones.reply.databinding.FragmentReplyBusinessMessagesBinding;
 import dev.ashtonjones.reply.datalayer.viewmodel.BusinessMessagesViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 import mva2.adapter.ListSection;
@@ -36,36 +36,18 @@ import mva2.adapter.MultiViewAdapter;
 import mva2.adapter.util.Mode;
 
 
-/**
- * TODO: Update this class to use Room (see MessageFragmentPersonalMessages Fragment)
- * <p>
- * The MessageFragment class is a fragment within the Main Activity that shows the user buttons that they can tap to send a predefined message
- * <p>
- * The Fragment uses a RecyclerView with a Card for each item that displays the CardView title and CardView image, and contains a message to be sent once the card is clicked
- * <p>
- * The fragment also uses a TabLayout to change the data of the cards based on the selected tab
- * <p>
- * The tabs represent each "type" of messages, such as "Personal messages" and "Business messages", so on, and reflect the same tabs (types) in the user's My Connect Cards
- * <p>
- * When a different tab is selected, it updates the cards to reflect the appropriate messages; for example, when the Business tab is selected, it will show the appropriate Business message cards
- */
+
 public class ReplyFragmentBusinessMessages extends Fragment {
 
     private static final String LOG_TAG = ReplyFragmentBusinessMessages.class.getSimpleName();
 
+    private FragmentReplyBusinessMessagesBinding binding;
 
     /// References for member variables.
-
-
-    private RecyclerView recyclerView;
-
-    private SpeedDialView speedDialView;
 
     private MultiViewAdapter multiViewAdapter;
 
     private ListSection<MessageCard> listSection;
-
-    private SelectableItemBinderMessageCard selectableItemBinderMessageCard;
 
     private MessageCard selectedMessage = null;
 
@@ -99,10 +81,10 @@ public class ReplyFragmentBusinessMessages extends Fragment {
 
         Log.d(LOG_TAG, "onCreateView");
 
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_message_business_messages, container, false);
+        binding = FragmentReplyBusinessMessagesBinding.inflate(getLayoutInflater(), container, false);
 
-        return view;
+        return binding.getRoot();
+
     }
 
 
@@ -222,13 +204,13 @@ public class ReplyFragmentBusinessMessages extends Fragment {
         gridLayoutManager.setSpanCount(2);
 
         // Set the layout manager for the RecyclerView
-        recyclerView.setLayoutManager(gridLayoutManager);
+        binding.recyclerViewFragmentMessageBusinessMessages.setLayoutManager(gridLayoutManager);
 
         // Connect the MultiViewAdapter to the RecyclerView
-        recyclerView.setAdapter(multiViewAdapter);
+        binding.recyclerViewFragmentMessageBusinessMessages.setAdapter(multiViewAdapter);
 
         // Attach ItemToucHelper to RecyclerView to enable drag and drop functionality
-        multiViewAdapter.getItemTouchHelper().attachToRecyclerView(recyclerView);
+        multiViewAdapter.getItemTouchHelper().attachToRecyclerView(binding.recyclerViewFragmentMessageBusinessMessages);
 
     }
 
@@ -241,7 +223,7 @@ public class ReplyFragmentBusinessMessages extends Fragment {
         listSection = new ListSection<>();
 
         // Initialize the Binders
-        selectableItemBinderMessageCard = new SelectableItemBinderMessageCard();
+        SelectableItemBinderMessageCard selectableItemBinderMessageCard = new SelectableItemBinderMessageCard();
 
         // Set the span count on the Adapter (same as the LayoutManager span count)
         multiViewAdapter.setSpanCount(2);
@@ -255,7 +237,7 @@ public class ReplyFragmentBusinessMessages extends Fragment {
         listSection.setSelectionMode(Mode.SINGLE);
 
         // Connect the MultiViewAdapter to the RecyclerView
-        recyclerView.setAdapter(multiViewAdapter);
+        binding.recyclerViewFragmentMessageBusinessMessages.setAdapter(multiViewAdapter);
 
     }
 
@@ -278,15 +260,15 @@ public class ReplyFragmentBusinessMessages extends Fragment {
          *
          */
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
 
         /**
@@ -296,7 +278,7 @@ public class ReplyFragmentBusinessMessages extends Fragment {
          * The "Main Action" is the action of the FAB when it is opened (the FAB itself becomes the Main Action; in this case, it is used as a close action to close the FAB)
          *
          */
-        speedDialView.setOnChangeListener(new SpeedDialView.OnChangeListener() {
+        binding.speedDialFabBusinessMessages.setOnChangeListener(new SpeedDialView.OnChangeListener() {
             @Override
             // Main Action is the initial Fab clicked after it is open (In this case, it is the close icon)
             public boolean onMainActionSelected() {
@@ -325,7 +307,7 @@ public class ReplyFragmentBusinessMessages extends Fragment {
          *
          */
 
-        speedDialView.setOnActionSelectedListener(actionItem -> {
+        binding.speedDialFabBusinessMessages.setOnActionSelectedListener(actionItem -> {
             switch (actionItem.getId()) {
 
                 // Send message action
@@ -440,12 +422,7 @@ public class ReplyFragmentBusinessMessages extends Fragment {
 
     public void initViews() {
 
-        recyclerView = getView().findViewById(R.id.recycler_view_fragment_message_business_messages);
-
-        speedDialView = getView().findViewById(R.id.speed_dial_fab_business_messages);
-
         topAppToolbar = getActivity().findViewById(R.id.top_app_bar_toolbar_main_activity);
-
 
     }
 

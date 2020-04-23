@@ -75,6 +75,9 @@
         <item name="shapeAppearanceMediumComponent">@style/AppShapeAppearanceMediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/AppShapeAppearanceLargeComponent</item>
 
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
+
 
 
     </style> // App Theme
@@ -97,5 +100,7 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">18dp</item>
     </style>
+
+
 
 </resources>

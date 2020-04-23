@@ -15,6 +15,7 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
         showOrHideToolbar();
 
+        setDefaultPreferences();
+
+    }
+
+
+    private void setDefaultPreferences() {
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
     }
 

@@ -19,7 +19,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +29,7 @@ import java.util.ArrayList;
 
 import dev.ashtonjones.reply.R;
 import dev.ashtonjones.reply.adapters.SelectableItemBinderMessageCard;
+import dev.ashtonjones.reply.databinding.FragmentReplyPersonalMessagesBinding;
 import dev.ashtonjones.reply.datalayer.viewmodel.PersonalMessagesViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 import mva2.adapter.ListSection;
@@ -37,51 +37,24 @@ import mva2.adapter.MultiViewAdapter;
 import mva2.adapter.util.Mode;
 
 
-/**
- * Each inner Fragment class in the Message Fragment has its own RecyclerViewAdapter and its own data table in the database; thus, each inner Fragment class has its own DAO and ViewModel classes as well
- * <p>
- * <p>
- * <p>
- * This class implements the Room Database, which is used to store the data for the Cards in the inner Fragments
- * <p>
- * In addition to Room, this class also implements other Architecture Components, such as LiveData and ViewModel
- * <p>
- * <p>
- * <p>
- * <p>
- * The data for the cards in each inner Fragment are initialized and stored in the Room database, so they can be accessed offline and limit the network requests to keep costs down
- * <p>
- * The data for each inner Fragment is passed up through the Architecture Component layers: The lowest layer is the SQLite (Room) database: this data gets passed up to the UI by passing the data to the RepositoryRoom, which is then passed to the ViewModel, which then passes it on to the UI Constroller (the Fragment, in this case)
- * <p>
- * <p>
- * <p>
- * The data for the RecyclerView is initialized and updated in the set() method, which updates the the cached copy of data from the RepositoryRoom
- * <p>
- * <p>
- * <p>
- * <p>
- * ** MessageFragmentPersonalMessages is the first (first tab) of the inner Fragments in the Message Fragment ***
- */
+
 public class ReplyFragmentPersonalMessages extends Fragment {
 
     /// LOG TAG
     public static final String LOG_TAG = ReplyFragmentPersonalMessages.class.getSimpleName();
+
+    private FragmentReplyPersonalMessagesBinding binding;
 
     /// REFERENCES
 
     /// VIEWS
 
     /// RECYCLERVIEW
-    private RecyclerView recyclerView;
 
     // Adapter for the RecyclerView
     private MultiViewAdapter multiViewAdapter;
 
-    private SpeedDialView speedDialView;
-
     private ListSection<MessageCard> listSection;
-
-    private SelectableItemBinderMessageCard selectableItemBinderMessageCard;
 
     private MessageCard selectedMessage = null;
 
@@ -116,11 +89,9 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
         Log.d(LOG_TAG, "onCreateView");
 
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_message_personal_messages, container, false);
+        binding = FragmentReplyPersonalMessagesBinding.inflate(getLayoutInflater(), container, false);
 
-        return view;
-
+        return binding.getRoot();
 
     }
 
@@ -165,10 +136,6 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
     public void initViews() {
 
-        recyclerView = getView().findViewById(R.id.recycler_view_fragment_message_personal_messages);
-
-        speedDialView = getView().findViewById(R.id.speed_dial_fab_personal_messages_fragment);
-
         topAppToolbar = getActivity().findViewById(R.id.top_app_bar_toolbar_main_activity);
 
     }
@@ -192,15 +159,15 @@ public class ReplyFragmentPersonalMessages extends Fragment {
          *
          */
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
 
         /**
@@ -210,7 +177,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
          * The "Main Action" is the action of the FAB when it is opened (the FAB itself becomes the Main Action; in this case, it is used as a close action to close the FAB)
          *
          */
-        speedDialView.setOnChangeListener(new SpeedDialView.OnChangeListener() {
+        binding.speedDialFabPersonalMessagesFragment.setOnChangeListener(new SpeedDialView.OnChangeListener() {
             @Override
             // Main Action is the initial Fab clicked after it is open (In this case, it is the close icon)
             public boolean onMainActionSelected() {
@@ -244,7 +211,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
          *
          */
 
-        speedDialView.setOnActionSelectedListener(actionItem -> {
+        binding.speedDialFabPersonalMessagesFragment.setOnActionSelectedListener(actionItem -> {
             switch (actionItem.getId()) {
 
                 // Send message action
@@ -437,10 +404,10 @@ public class ReplyFragmentPersonalMessages extends Fragment {
         gridLayoutManager.setSpanCount(2);
 
         // Set the layout manager for the RecyclerView
-        recyclerView.setLayoutManager(gridLayoutManager);
+        binding.recyclerViewFragmentMessagePersonalMessages.setLayoutManager(gridLayoutManager);
 
         // Connect the MultiViewAdapter to the RecyclerView
-        recyclerView.setAdapter(multiViewAdapter);
+        binding.recyclerViewFragmentMessagePersonalMessages.setAdapter(multiViewAdapter);
 
 
     }
@@ -454,7 +421,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
         listSection = new ListSection<>();
 
         // Initialize the Binders
-        selectableItemBinderMessageCard = new SelectableItemBinderMessageCard();
+        SelectableItemBinderMessageCard selectableItemBinderMessageCard = new SelectableItemBinderMessageCard();
 
         // Set the span count on the Adapter (same as the LayoutManager span count)
         multiViewAdapter.setSpanCount(2);

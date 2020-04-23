@@ -110,8 +110,6 @@ public class SignInFragment extends Fragment {
 
             Log.i(LOG_TAG, "Successfully signed in user: " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
-//            Toast.makeText(getContext(), "Successfully signed in user: " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT).show();
-
 
             if (response.isNewUser()) {
 

@@ -7,6 +7,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "dev.ashtonjones.reply"
         minSdkVersion 16
@@ -43,7 +47,7 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.0-alpha06'
 
 
     // Lifecycle components
@@ -54,7 +58,7 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     // Navigation component
-    def nav_version = '2.2.1'
+    def nav_version = '2.2.2'
 
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
@@ -80,5 +84,7 @@ dependencies {
 
     // Had to add this to avoid weird bug
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'androidx.preference:preference:1.1.1'
 
 }

@@ -3,21 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:title="Set timer"
+        android:id="@+id/set_timer_fragment_dest"
+        android:icon="@drawable/ic_timer_white_24dp"
+        android:orderInCategory="10"
+        app:showAsAction="always">
+
+    </item>
+
+    <item
         android:id="@+id/welcome_nav_graph"
+        android:orderInCategory="70"
         android:title="Introduction"
-        app:showAsAction="never"
-        android:orderInCategory="80"/>
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/about_developer_fragment_dest"
+        android:orderInCategory="80"
         android:title="About Developer"
-        app:showAsAction="never"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/settings_fragment_dest"
         android:orderInCategory="90"
-        />
+        android:title="Settings"
+        app:showAsAction="never">
+
+    </item>
 
     <item
         android:id="@+id/sign_out_button"
+        android:orderInCategory="100"
         android:title="Sign out"
-        app:showAsAction="never"
-        android:orderInCategory="100"/>
+        app:showAsAction="never" />
 </menu>

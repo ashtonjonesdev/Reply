@@ -14,11 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
 import dev.ashtonjones.reply.R;
+import dev.ashtonjones.reply.databinding.FragmentEditMessageBinding;
 import dev.ashtonjones.reply.datalayer.viewmodel.EditMessageViewModel;
 import dev.ashtonjones.reply.datamodels.MessageCard;
 
@@ -29,13 +26,7 @@ public class EditMessageFragment extends Fragment {
 
     private static final String LOG_TAG = EditMessageFragment.class.getSimpleName();
 
-    private TextInputLayout textInputLayoutTitleEditMessage;
-    private TextInputLayout textInputLayoutMessageEditMessage;
-
-    private TextInputEditText textInputEditTextTitleEditMessage;
-    private TextInputEditText textInputEditTextMessageEditMessage;
-
-    private FloatingActionButton saveFABEditMessage;
+    private FragmentEditMessageBinding binding;
 
     private MessageCard oldMessage;
 
@@ -54,15 +45,17 @@ public class EditMessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_message, container, false);
+
+        binding = FragmentEditMessageBinding.inflate(getLayoutInflater(), container, false);
+
+        return binding.getRoot();
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initViews();
 
         setUpViewModel();
 
@@ -90,21 +83,19 @@ public class EditMessageFragment extends Fragment {
 
         }
 
-        saveFABEditMessage.setOnClickListener(new View.OnClickListener() {
+        binding.saveCardFABEditMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(textInputEditTextTitleEditMessage.getText() != null && textInputEditTextTitleEditMessage.length() > 0 && textInputEditTextMessageEditMessage.getText() != null && textInputEditTextMessageEditMessage.length() > 0) {
+                if(binding.textInputEditTextTitleEditMessage.getText() != null && binding.textInputEditTextTitleEditMessage.length() > 0 && binding.textInputEditTextMessageEditMessage.getText() != null && binding.textInputEditTextMessageEditMessage.length() > 0) {
 
-                    String newMessageTitle = textInputEditTextTitleEditMessage.getText().toString();
+                    String newMessageTitle = binding.textInputEditTextTitleEditMessage.getText().toString();
 
-                    String newMessageMessage = textInputEditTextMessageEditMessage.getText().toString();
+                    String newMessageMessage = binding.textInputEditTextMessageEditMessage.getText().toString();
 
                     newMessage = new MessageCard(newMessageTitle, newMessageMessage);
 
                     editMessage();
-
-//                    editMessageInFirebase(oldMessage, newMessage);
 
                     Navigation.findNavController(getView()).popBackStack();
 
@@ -184,38 +175,15 @@ public class EditMessageFragment extends Fragment {
     }
 
 
-//    private void editMessageInFirebase(MessageCard oldMessage, MessageCard newMessage) {
-//
-//        FirebaseRepository firebaseRepository = new FirebaseRepository();
-//
-//        firebaseRepository.editPersonalMessage(oldMessage, newMessage);
-//
-//    }
-
     private void setSelectedMessageData() {
 
         String selectedMessageTitle = oldMessage.getTitle();
 
         String selectedMessageMessage = oldMessage.getMessage();
 
-        textInputEditTextTitleEditMessage.setText(selectedMessageTitle);
+        binding.textInputEditTextTitleEditMessage.setText(selectedMessageTitle);
 
-        textInputEditTextMessageEditMessage.setText(selectedMessageMessage);
-
-    }
-
-    private void initViews() {
-
-        textInputLayoutTitleEditMessage = getView().findViewById(R.id.textInputLayoutTitleEditMessage);
-
-        textInputLayoutMessageEditMessage = getView().findViewById(R.id.textInputLayoutMessageEditMessage);
-
-        textInputEditTextMessageEditMessage = getView().findViewById(R.id.textInputEditTextMessageEditMessage);
-
-        textInputEditTextTitleEditMessage = getView().findViewById(R.id.textInputEditTextTitleEditMessage);
-
-        saveFABEditMessage = getView().findViewById(R.id.saveCardFABEditMessage);
-
+        binding.textInputEditTextMessageEditMessage.setText(selectedMessageMessage);
 
     }
 
