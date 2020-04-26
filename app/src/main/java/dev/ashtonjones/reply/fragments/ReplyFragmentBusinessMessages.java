@@ -260,16 +260,15 @@ public class ReplyFragmentBusinessMessages extends Fragment {
          *
          */
 
-        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_send_action, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_preview_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
         binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_edit_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
         binding.speedDialFabBusinessMessages.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
-
 
         /**
          *
@@ -311,7 +310,7 @@ public class ReplyFragmentBusinessMessages extends Fragment {
             switch (actionItem.getId()) {
 
                 // Send message action
-                case R.id.fab_custom_theme:
+                case R.id.fab_send_action:
 
                     Log.d(LOG_TAG, "Send action clicked!");
 
@@ -327,7 +326,7 @@ public class ReplyFragmentBusinessMessages extends Fragment {
 
                     return false;
                 // Preview message action
-                case R.id.fab_search_action:
+                case R.id.fab_preview_action:
 
                     if (selectedMessage != null) {
 
@@ -351,7 +350,7 @@ public class ReplyFragmentBusinessMessages extends Fragment {
                     return false;
 
                 // Edit card action
-                case R.id.fab_replace_action:
+                case R.id.fab_edit_action:
 
                     if (selectedMessage != null) {
 

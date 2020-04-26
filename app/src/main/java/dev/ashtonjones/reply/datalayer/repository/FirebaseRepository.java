@@ -31,6 +31,8 @@ public class FirebaseRepository implements RepositoryInterface {
     private MutableLiveData<ArrayList<MessageCard>> plus1MessagesLiveData;
     private MutableLiveData<ArrayList<MessageCard>> plus2MessagesLiveData;
 
+    private MutableLiveData<MessageCard> replyLaterMessageLiveData;
+
 
     /**
      *
@@ -416,6 +418,56 @@ public class FirebaseRepository implements RepositoryInterface {
 
         documentReference.update("plus2Messages", FieldValue.arrayUnion(messageToAdd));
 
+    }
+
+    /**
+     *
+     * REPLY LATER METHODS
+     *
+     * @param selectedMessage
+     */
+    @Override
+    public void updateReplyLaterMessage(MessageCard selectedMessage) {
+
+        DocumentReference documentReference = getUserDocument(getUid());
+
+        documentReference.update("replyLaterMessage", selectedMessage);
+
+    }
+
+    @Override
+    public MutableLiveData<MessageCard> getReplyLaterMessage() {
+
+        replyLaterMessageLiveData = new MutableLiveData<>();
+
+        firebaseFirestore.collection("users").document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+
+                    if(documentSnapshot.exists()) {
+
+                        User user = documentSnapshot.toObject(User.class);
+
+                        Log.d(LOG_TAG, "Reply Later Message: " + user.getReplyLaterMessage().getMessage() + " | " + user.getReplyLaterMessage().getTitle());
+
+                        replyLaterMessageLiveData.postValue(user.getReplyLaterMessage());
+
+                    }
+
+                }
+
+                else {
+
+                    Log.d(LOG_TAG, "UNSUCCESSFUL");
+
+                }
+            }
+        });
+
+        return  replyLaterMessageLiveData;
     }
 
     public String getUid() {

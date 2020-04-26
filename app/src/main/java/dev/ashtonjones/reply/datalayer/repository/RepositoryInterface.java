@@ -55,6 +55,11 @@ public interface RepositoryInterface {
 
     void editPlus2Message(MessageCard oldMessage, MessageCard newMessage);
 
+    // REPLY LATER METHODS
+    void updateReplyLaterMessage(MessageCard selectedMessage);
+
+    MutableLiveData<MessageCard> getReplyLaterMessage();
+
 
 
 }

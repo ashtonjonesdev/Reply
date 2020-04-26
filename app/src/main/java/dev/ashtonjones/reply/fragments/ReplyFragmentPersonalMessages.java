@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.slider.Slider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
@@ -63,6 +64,8 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
     // VIEWMODEL
     private PersonalMessagesViewModel viewModel;
+
+    private Slider slider;
 
     /**
      * Required empty public constructor
@@ -138,6 +141,8 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
         topAppToolbar = getActivity().findViewById(R.id.top_app_bar_toolbar_main_activity);
 
+        slider = getView().findViewById(R.id.slider_dialog_custom_view);
+
     }
 
     @SuppressLint("ResourceAsColor")
@@ -159,15 +164,18 @@ public class ReplyFragmentPersonalMessages extends Fragment {
          *
          */
 
-        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_custom_theme, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_send_action, R.drawable.ic_email_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_search_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_preview_action, R.drawable.ic_remove_red_eye_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
         binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_action, R.drawable.ic_add_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
-        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_replace_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_edit_action, R.drawable.ic_writing_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
 
         binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_remove_action, R.drawable.ic_delete_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+
+        binding.speedDialFabPersonalMessagesFragment.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_timer_action, R.drawable.ic_timer_black_24dp).setFabBackgroundColor(R.color.colorPrimaryLight).create());
+
 
 
         /**
@@ -215,7 +223,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
             switch (actionItem.getId()) {
 
                 // Send message action
-                case R.id.fab_custom_theme:
+                case R.id.fab_send_action:
 
                     Log.d(LOG_TAG, "Send action clicked!");
 
@@ -231,7 +239,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
                     return false;
                 // Preview message action
-                case R.id.fab_search_action:
+                case R.id.fab_preview_action:
 
                     if (selectedMessage != null) {
 
@@ -255,7 +263,7 @@ public class ReplyFragmentPersonalMessages extends Fragment {
                     return false;
 
                 // Edit card action
-                case R.id.fab_replace_action:
+                case R.id.fab_edit_action:
 
                     if (selectedMessage != null) {
 
@@ -310,6 +318,28 @@ public class ReplyFragmentPersonalMessages extends Fragment {
 
 
                     return false;
+
+                case R.id.fab_timer_action:
+
+                    if(selectedMessage != null) {
+
+                        Log.d(LOG_TAG, "Timer action clicked!");
+
+                        Bundle bundle = new Bundle();
+
+                        bundle.putSerializable("selectedMessageTimerAction", selectedMessage);
+
+                        Navigation.findNavController(getView()).navigate(R.id.reply_later_fragment_dest, bundle);
+
+                    } else {
+
+                        Toast.makeText(getContext(), "No message selected", Toast.LENGTH_SHORT).show();
+
+
+                    }
+
+                    return false;
+
 
 
                 default:

@@ -1,8 +1,5 @@
 package dev.ashtonjones.reply.datamodels;
 
-import com.google.firebase.firestore.IgnoreExtraProperties;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class User {
@@ -24,6 +21,17 @@ public class User {
         this.businessMessages = businessMessages;
         this.plus1Messages = plus1Messages;
         this.plus2Messages = plus2Messages;
+    }
+
+    public User(String name, String uID, ArrayList<MessageCard> personalMessages, ArrayList<MessageCard> socialMessages, ArrayList<MessageCard> businessMessages, ArrayList<MessageCard> plus1Messages, ArrayList<MessageCard> plus2Messages, MessageCard replyLaterMessage) {
+        this.name = name;
+        this.uID = uID;
+        this.personalMessages = personalMessages;
+        this.socialMessages = socialMessages;
+        this.businessMessages = businessMessages;
+        this.plus1Messages = plus1Messages;
+        this.plus2Messages = plus2Messages;
+        this.replyLaterMessage = replyLaterMessage;
     }
 
     public ArrayList<MessageCard> getPersonalMessages() {
@@ -79,6 +87,16 @@ public class User {
     private ArrayList<MessageCard> plus1Messages;
 
     private ArrayList<MessageCard> plus2Messages;
+
+    private MessageCard replyLaterMessage;
+
+    public MessageCard getReplyLaterMessage() {
+        return replyLaterMessage;
+    }
+
+    public void setReplyLaterMessage(MessageCard replyLaterMessage) {
+        this.replyLaterMessage = replyLaterMessage;
+    }
 
     public String getName() {
         return name;

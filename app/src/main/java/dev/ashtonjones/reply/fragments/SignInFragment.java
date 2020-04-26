@@ -165,7 +165,9 @@ public class SignInFragment extends Fragment {
 
         starterList.add(new MessageCard("Welcome, " + firebaseUser.getDisplayName(), "Add your own message!"));
 
-        User newUser = new User(firebaseUser.getDisplayName(), firebaseUser.getUid(), starterList, starterList, starterList, starterList, starterList);
+        MessageCard replyLaterMessage = new MessageCard("Reply Later Placeholder", "Reply later");
+
+        User newUser = new User(firebaseUser.getDisplayName(), firebaseUser.getUid(), starterList, starterList, starterList, starterList, starterList, replyLaterMessage);
 
         firebaseFirestore.collection("users").document(firebaseUser.getUid()).set(newUser);
 

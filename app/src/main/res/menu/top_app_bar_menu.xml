@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:title="Set timer"
-        android:id="@+id/set_timer_fragment_dest"
-        android:icon="@drawable/ic_timer_white_24dp"
-        android:orderInCategory="10"
-        app:showAsAction="always">
-
-    </item>
-
     <item
         android:id="@+id/welcome_nav_graph"
         android:orderInCategory="70"

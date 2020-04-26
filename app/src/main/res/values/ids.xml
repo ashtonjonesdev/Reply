@@ -2,14 +2,17 @@
 <resources>
 
     <!--Unique ids for the SpeedDial Fab actions-->
-    <item name="fab_camera_action" type="id" />
-    <item name="fab_search_action" type="id" />
+    <item name="fab_send_action" type="id"/>
+    <item name="fab_preview_action" type="id"/>
+    <item name="fab_add_action" type="id" />
+    <item name="fab_edit_action" type="id" />
+    <item name="fab_remove_action" type="id" />
+    <item name="fab_timer_action" type="id"/>
+
 
     <!--TODO: Edit or remove these to reflect the SpeedDial Fab actions used-->
     <item name="fab_long_label" type="id" />
     <item name="fab_custom_theme" type="id" />
-    <item name="fab_add_action" type="id" />
-    <item name="fab_replace_action" type="id" />
-    <item name="fab_remove_action" type="id" />
+
 
 </resources>
