@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import dev.ashtonjones.reply.AlarmReceiver;
 import dev.ashtonjones.reply.R;
@@ -172,6 +173,8 @@ public class ReplyLaterFragment extends Fragment {
 
 
         }
+
+        Navigation.findNavController(getView()).popBackStack();
 
 
 

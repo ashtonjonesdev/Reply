@@ -46,7 +46,7 @@
             android:drawableLeft="@drawable/ic_collections_black_24dp"
             android:drawablePadding="12dp"
             android:imeOptions="actionNext"
-            android:inputType="textShortMessage|textCapWords"
+            android:inputType="textMultiLine|textCapSentences"
             android:selectAllOnFocus="true"
             android:text="" />
 
@@ -77,8 +77,8 @@
             android:drawableStart="@drawable/ic_email_black_24dp"
             android:drawableLeft="@drawable/ic_email_black_24dp"
             android:drawablePadding="12dp"
-            android:inputType="textImeMultiLine|textCapSentences"
-            android:imeOptions="actionDone"
+            android:inputType="textMultiLine|textCapSentences"
+            android:imeOptions="actionNone"
             android:selectAllOnFocus="true"
             android:text="" />
 

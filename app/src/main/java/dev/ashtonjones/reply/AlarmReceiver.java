@@ -40,8 +40,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         notification
                 .setSmallIcon(R.drawable.ic_timer_black_24dp)
                 .setContentTitle("Time to reply!")
-                .setContentText("")
-                .setSmallIcon(R.drawable.app_icon)
+                .setContentText("Tap to send your message")
+                .addAction(R.drawable.ic_email_black_24dp, "Send message", pendingIntent)
+                .setSmallIcon(R.drawable.icons8_comments_48)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
