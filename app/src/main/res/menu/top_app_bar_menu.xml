@@ -13,13 +13,13 @@
         android:title="About Developer"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/settings_fragment_dest"
-        android:orderInCategory="90"
-        android:title="Settings"
-        app:showAsAction="never">
+<!--    <item-->
+<!--        android:id="@+id/settings_fragment_dest"-->
+<!--        android:orderInCategory="90"-->
+<!--        android:title="Settings"-->
+<!--        app:showAsAction="never">-->
 
-    </item>
+<!--    </item>-->
 
     <item
         android:id="@+id/sign_out_button"
