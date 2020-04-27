@@ -152,10 +152,10 @@ public class ReplyLaterFragment extends Fragment {
         long hoursTimeLengthInMillis = hours * (1000*60*60);
 
         // test 10 second interval
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + hours*1000, alarmPendingIntent );
+//        alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + hours*1000, alarmPendingIntent );
 
         // Set hours interval
-//        alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + hoursTimeLengthInMillis, alarmPendingIntent );
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + hoursTimeLengthInMillis, alarmPendingIntent );
 
         /// SAVE SELECTED MESSAGE TO FIREBASE
         updateReplyLaterMessage();
