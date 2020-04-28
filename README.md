@@ -16,25 +16,28 @@ If you're using any code style like xo, standard etc. That will help others whil
 
 
 <b>Built with</b>
-- MVVM
+- MVVM Architecture
 - ViewModel
 - LiveData
+- ViewBinding
 - Navigation Component
 - Firebase Authentication
 - Cloud Firestore
+- Material Design
 
 ## Features
 - Solves the problem of repeatedly typing commonly sent messages and not being able to send them through multiple platforms
+- Uses Android Architecture components, including LivaData, ViewModel, Navigation, and ViewBinding to make the app robust, stable, and maintainable
+- Follows Google's recommended Single Activity architecture and MVVM design pattern
+- Uses Material Design components for a beautiful, consistent design 
 
 ## Code Example
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+
 
 ## Installation
-Provide step by step series of examples and explanations about how to get a development env running.
 
 ## API Reference
 
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
 
 ## How to use?
 
