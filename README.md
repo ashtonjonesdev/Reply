@@ -1,11 +1,11 @@
-# Reply
+# 📨 Reply
 -------
 Easily send your own custom, pre-defined messages through any platform
-* Create and store your own message templates
-* Easily send your message through any platform
-* Add, edit, and delete your messages
-* Preview and edit your message before you send it
-* Set a timer to remind you to respond with one of your messages at a later time
+* ✅ Create and store your own message templates 
+* ✅ Easily send your messages through any platform
+* ✅ Add, edit, and delete your messages
+* ✅ Preview and edit your message before you send it
+* ✅ Set a timer to remind you to respond with one of your messages at a later time
 
 ## 🚀 Motivation
 I was tired of repeatedly typing the same message over and over, and having to copy and paste the same message to each platform I wanted to post it to. So I created Reply, which makes it easy to send commonly sent messages through any platform.
