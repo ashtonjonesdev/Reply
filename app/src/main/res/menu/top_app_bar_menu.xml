@@ -6,6 +6,11 @@
         android:orderInCategory="70"
         android:title="Introduction"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/medium_article_tips"
+        android:title="Tips"
+        android:orderInCategory="80"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/about_developer_fragment_dest"

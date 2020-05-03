@@ -1,5 +1,7 @@
 package dev.ashtonjones.reply.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -94,7 +96,26 @@ public class MainActivity extends AppCompatActivity {
 
        }
 
+        if(item.getItemId() == R.id.medium_article_tips) {
+
+            openMediumTipsArticle();
+
+        }
+
         return NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
+    }
+
+    private void openMediumTipsArticle() {
+
+        String articleUrl = "https://medium.com/@TJgrapes/introducing-reply-3d0b57ec6744";
+
+        Uri articleUri = Uri.parse(articleUrl);
+
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, articleUri);
+
+        startActivity(intent);
+
     }
 
     private void signOut() {
