@@ -67,9 +67,9 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     // Firebase
-    implementation 'com.google.firebase:firebase-analytics:17.3.0'
-    implementation 'com.google.firebase:firebase-auth:19.3.0'
-    implementation 'com.google.firebase:firebase-firestore:21.4.2'
+    implementation 'com.google.firebase:firebase-analytics:17.4.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.firebase:firebase-firestore:21.4.3'
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
 
 
