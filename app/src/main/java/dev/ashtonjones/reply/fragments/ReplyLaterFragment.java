@@ -192,8 +192,8 @@ public class ReplyLaterFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        alarmManager = (AlarmManager) getContext().getSystemService(getContext().ALARM_SERVICE);
-
+        AlarmManager alarmManager =
+                (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         alarmIntent = new Intent(getContext(), AlarmReceiver.class);
 
         alarmPendingIntent = PendingIntent.getBroadcast(getContext(), 0, alarmIntent , 0);
