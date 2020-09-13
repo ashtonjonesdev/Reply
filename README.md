@@ -1,7 +1,6 @@
 # 📨 Reply
 
 <p align="center"><img src="./gif/sendMessage.gif"></p>
--------
 
 Easily send your own custom, pre-defined messages through any platform
 * ✅ Create and store your own message templates 
